@@ -57,13 +57,18 @@ form{
     grid-column: 1 /2;
     grid-row:1 /2 ;
     transition: 0.2s 0.7s ease-in-out;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.2);
+    width: 60%;
+
 }
 form.sign-in-form{
     z-index: 2;
+    margin-left: 3.8rem;
 }
 form.sign-up-form{
     z-index: 1;
     opacity: 0;
+    margin-left: 10.8rem;
 }
 .title{
     font-size: 2.2rem;
@@ -97,7 +102,7 @@ form.sign-up-form{
     font-size: 1.1rem;
     color: #333;
 }
-select{
+#jobRole{
     border: none;
     margin-bottom: 9%;
     max-width: 380px;
