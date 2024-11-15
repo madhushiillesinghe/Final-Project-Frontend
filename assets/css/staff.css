@@ -1,0 +1,42 @@
+.add-button {
+    position: fixed;
+    top: 20px;
+    left: 1490px;
+    padding: 10px 13px;
+    font-size: 16px;
+    background-color: #4CAF50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 15%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-button:hover {
+    background-color: #45a049; /* Darker green */
+  }
+  
+  .add-button i {
+    font-size: 1rem;
+  }
+  
+.table {
+    width: 100%;
+    table-layout: fixed; /* Makes columns consistent */
+  }
+  .table th{
+    background-color: #065009;
+  }
+
+
+  
+  /* Consistent cell and header padding */
+  .table th, .table td {
+    padding: 12px; /* Adjust padding as needed */
+    vertical-align: middle;
+    font-size: 1rem;
+  }
+
+  label{
+    color: #06750fc9;
+  }
