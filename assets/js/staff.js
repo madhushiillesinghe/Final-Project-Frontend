@@ -13,6 +13,8 @@ let staffData = [
     email: "john.doe@example.com",
     role: "SCIENTIST",
     field: "F04",
+    joinedDate: "2022-01-01",
+    dob: "1985-07-20",
   },
   // Add more sample data if needed...
 ];
@@ -130,6 +132,9 @@ function collectFormData() {
     email: $("#email").val(),
     role: $("#role").val(),
     field: $("#fieldSelector").val(),
+    gender: $("#gender").val(),
+    joinedDate: $("#joinedDate").val(),
+    dob: $("#dob").val(),
   };
 }
 
@@ -147,6 +152,8 @@ function populateFormFields(staff) {
   $("#email").val(staff.email);
   $("#role").val(staff.role);
   $("#fieldSelector").val(staff.field);
+  $("#joinedDate").val(staff.joinedDate);
+  $("#dob").val(staff.dob);
 }
 
 function setFormReadOnly(isReadOnly) {

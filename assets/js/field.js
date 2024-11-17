@@ -59,11 +59,13 @@ let fieldData = [
   
   // Function to Edit a Field
   function editField(fieldCode) {
+    setFormReadOnly(false);
+
     const field = fieldData.find((f) => f.fieldCode === fieldCode);
     if (field) {
       populateForm(field);
       $("#editFieldModalLabel").text("Edit Field");
-      $(".update").text("Update").attr("onclick", `saveFieldChanges('${fieldCode}')`);
+      $(".update").text("Update").attr("onclick", "saveFieldChanges()");
       const editModal = new bootstrap.Modal($("#editFieldModal"));
       editModal.show();
     } else {
@@ -72,15 +74,16 @@ let fieldData = [
   }
   
   // Function to Save Changes to a Field
-  function saveFieldChanges(fieldCode) {
+  function saveFieldChanges() {
     const updatedField = getFieldFormData();
-    const index = fieldData.findIndex((f) => f.fieldCode === fieldCode);
+    const index = fieldData.findIndex((f) => f.fieldCode === updatedField.fieldCode);
     if (index !== -1) {
       fieldData[index] = updatedField;
       alert("Field updated successfully!");
       loadFieldTable();
-      closeModal();
     }
+    const modal = bootstrap.Modal.getInstance($("#editFieldModal"));
+    modal.hide();
   }
   
   // Function to Delete a Field
@@ -149,4 +152,8 @@ let fieldData = [
     const modal = bootstrap.Modal.getInstance($("#editFieldModal"));
     modal.hide();
   }
-  
+  function resetForm() {
+    $("#fieldForm")[0].reset();
+    $("#actionButton").text("Add").css("background-color", "green");
+    $("#fieldForm").data("action", "add");
+  }
