@@ -5,6 +5,7 @@ let staffData = [
     lastName: "Doe",
     designation: "Scientist",
     gender: "MALE",
+    roadNo:"362A",
     street: "123 Main St",
     city: "Colombo",
     district: "Colombo",
@@ -124,6 +125,7 @@ function collectFormData() {
     lastName: $("#lastName").val(),
     designation: $("#designation").val(),
     gender: $("#gender").val(),
+    roadNo: $("#roadNo").val(),
     street: $("#street").val(),
     city: $("#city").val(),
     district: $("#district").val(),
@@ -144,6 +146,7 @@ function populateFormFields(staff) {
   $("#lastName").val(staff.lastName);
   $("#designation").val(staff.designation);
   $("#gender").val(staff.gender);
+  $("#roadNo").val(staff.roadNo);
   $("#street").val(staff.street);
   $("#city").val(staff.city);
   $("#district").val(staff.district);

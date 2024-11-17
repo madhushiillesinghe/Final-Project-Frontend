@@ -20,67 +20,66 @@
         </button>
 
         <!-- Field Table -->
-        <table class="table table-striped">
-            <thead class="table-dark">
-                <tr>
-                    <th>Field Code</th>
-                    <th>Field Name</th>
-                    <th>Location</th>
-                    <th>Extent Size</th>
-                    <th>Image 1</th>
-                    <th>Image 2</th>
-                    <th>Actions</th>
-                </tr>
+        <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Field Code</th>
+                <th>Field Name</th>
+                <th>Field Location</th>
+                <th>Extent Size</th>
+                <th>Image 1</th>
+                <th>Image 2</th>
+                <th>Actions</th>
+              </tr>
             </thead>
             <tbody id="field-table-body">
-                <!-- Field rows will be dynamically added here -->
+              <!-- Field rows will be injected here by JavaScript -->
             </tbody>
-        </table>
-
-        <!-- Field Form Modal -->
-        <div class="modal fade" id="editFieldModal" tabindex="-1" aria-labelledby="editFieldModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="editFieldModalLabel">Add Field</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <form id="field-form">
-                            <div class="mb-3">
-                                <label for="fieldCode" class="form-label">Field Code</label>
-                                <input type="text" class="form-control" id="fieldCode" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fieldName" class="form-label">Field Name</label>
-                                <input type="text" class="form-control" id="fieldName" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fieldLocation" class="form-label">Field Location</label>
-                                <input type="text" class="form-control" id="fieldLocation" placeholder="Enter coordinates (e.g., 40.7128, -74.0060)">
-                            </div>
-                            <div class="mb-3">
-                                <label for="extentSize" class="form-label">Extent Size</label>
-                                <input type="number" class="form-control" id="extentSize" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="fieldImage1" class="form-label">Field Image 1</label>
-                                <input type="file" class="form-control" id="fieldImage1" accept="image/*">
-                            </div>
-                            <div class="mb-3">
-                                <label for="fieldImage2" class="form-label">Field Image 2</label>
-                                <input type="file" class="form-control" id="fieldImage2" accept="image/*">
-                            </div>
-                        </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary update" onclick="saveFieldChanges()">Save Changes</button>
-                    </div>
+          </table>
+          
+          <!-- Field Modal -->
+          <div class="modal fade" id="editFieldModal" tabindex="-1" aria-labelledby="editFieldModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="editFieldModalLabel">Add Field</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                  <form id="field-form">
+                    <div class="mb-2">
+                      <label for="fieldCode" class="form-label">Field Code</label>
+                      <input type="text" class="form-control" id="fieldCode" />
+                    </div>
+                    <div class="mb-2">
+                      <label for="fieldName" class="form-label">Field Name</label>
+                      <input type="text" class="form-control" id="fieldName" />
+                    </div>
+                    <div class="mb-2">
+                      <label for="fieldLocation" class="form-label">Field Location</label>
+                      <input type="text" class="form-control" id="fieldLocation" />
+                    </div>
+                    <div class="mb-2">
+                      <label for="extentSize" class="form-label">Extent Size</label>
+                      <input type="number" class="form-control" id="extentSize" />
+                    </div>
+                    <div class="mb-2">
+                      <label for="fieldImage1" class="form-label">Field Image 1</label>
+                      <input type="url" class="form-control" id="fieldImage1" />
+                    </div>
+                    <div class="mb-2">
+                      <label for="fieldImage2" class="form-label">Field Image 2</label>
+                      <input type="url" class="form-control" id="fieldImage2" />
+                    </div>
+                  </form>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                  <button type="button" class="btn btn-primary update">Save</button>
+                </div>
+              </div>
             </div>
-        </div>
-    </div>
+          </div>
 
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>

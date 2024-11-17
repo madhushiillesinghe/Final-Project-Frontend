@@ -32,7 +32,7 @@ let fieldData = [
           <td class="action-icons">
             <i class="fas fa-edit me-3" onclick="editField('${field.fieldCode}')"></i>
             <i class="fas fa-trash-alt me-3" onclick="deleteField('${field.fieldCode}')"></i>
-            <i class="fas fa-eye black-icon" onclick="viewField('${field.fieldCode}')"></i>
+            <i class="fas fa-eye" onclick="viewField('${field.fieldCode}')"></i>
           </td>
         </tr>
       `);
@@ -60,7 +60,8 @@ let fieldData = [
   // Function to Edit a Field
   function editField(fieldCode) {
     setFormReadOnly(false);
-
+    $(".update").show();
+  
     const field = fieldData.find((f) => f.fieldCode === fieldCode);
     if (field) {
       populateForm(field);
@@ -75,6 +76,7 @@ let fieldData = [
   
   // Function to Save Changes to a Field
   function saveFieldChanges() {
+
     const updatedField = getFieldFormData();
     const index = fieldData.findIndex((f) => f.fieldCode === updatedField.fieldCode);
     if (index !== -1) {
@@ -152,8 +154,4 @@ let fieldData = [
     const modal = bootstrap.Modal.getInstance($("#editFieldModal"));
     modal.hide();
   }
-  function resetForm() {
-    $("#fieldForm")[0].reset();
-    $("#actionButton").text("Add").css("background-color", "green");
-    $("#fieldForm").data("action", "add");
-  }
+  
