@@ -58,9 +58,11 @@ function loadStaffTable() {
   $(".action-icons i").css("color", "black");
 }
 
+
 // Function to handle the edit icon click
 function editStaff(id) {
   setFormReadOnly(false);
+  document.querySelector(".update").style.display = "";
 
   // Find the staff record by ID
   const staff = staffData.find((s) => s.id === id);
@@ -137,6 +139,24 @@ function addStaff() {
 
   // Enable all fields for editing
   setFormReadOnly(false);
+  document.querySelector(".update").style.display = "";
+
+  const fieldSelector = document.getElementById("fieldSelector");
+  fieldSelector.classList.remove("d-none");
+
+  const fields = [
+    { id: 1, name: "Field 1" },
+    { id: 2, name: "Field 2" },
+    { id: 3, name: "Field 3" }
+  ];
+
+  fieldSelector.innerHTML = "<option value=''>Select Field</option>"; // Reset options first
+  fields.forEach(field => {
+    const option = document.createElement("option");
+    option.value = field.id;
+    option.textContent = field.name;
+    fieldSelector.appendChild(option);
+  });
   // Clear all form fields
   document.getElementById("id").value = ""; // Keep empty as ID will be auto-generated or set later
   document.getElementById("firstName").value = "";
@@ -154,12 +174,13 @@ function addStaff() {
   document.getElementById("province").value = "";
   document.getElementById("role").value = "OTHER"; // Set a default value
 
+   
   document.getElementById("editStaffModalLabel").innerText = "Add Staff";
  
   const saveButton = document.querySelector(".update");
   saveButton.innerText = "Save";
   saveButton.setAttribute("onclick", "saveNewStaff()");
-  
+ 
   // Show the modal
   const editStaffModal = new bootstrap.Modal(
     document.getElementById("editStaffModal")
@@ -236,11 +257,12 @@ function viewStaff(id) {
     document.getElementById("editStaffModalLabel").innerText = "View Staff";
 
     // Hide action buttons
-    document.querySelector(".modal-footer").style.display = "none";
+    document.querySelector(".update").style.display = "none";
 
     // Show the modal
     const viewStaffModal = new bootstrap.Modal(document.getElementById("editStaffModal"));
     viewStaffModal.show();
+
   } else {
     alert("Staff not found!");
   }

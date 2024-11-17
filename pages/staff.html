@@ -20,7 +20,7 @@
     <section id="staff-table">
       <div class="container mt-5">
         <h2 class="mb-4">Staff Management</h2>
-        <button class="add-button btn btn-success" onclick="addStaff()">
+        <button class="add-button btn btn-success" onclick="addStaff()" id="addbtn">
           <i class="fa fa-plus"></i> Add
         </button>
         <table class="table table-striped">
@@ -60,7 +60,7 @@
             </div>
             <div class="modal-body">
               <form id="staffForm">
-                <div class="mb-3 col-2">
+                <div class="mb-2 col-2">
                   <label for="id" class="form-label">ID</label>
                   <input type="text" class="form-control" id="id" readonly />
                 </div>
@@ -152,13 +152,27 @@
                     <input type="email" class="form-control" id="email" />
                   </div>
                 </div>
-                <div class="mb-md-5 col-2 column-gap-xxl-5">
+                <div class="row mb-3 column-gap-xxl-5">
+                <div class="col-4">
                   <label for="role" class="form-label">Role</label>
                   <select class="form-select" id="role">
                     <option value="OTHER" selected>OTHER</option>
                     <option value="SCIENTIST">SCIENTIST</option>
                     <option value="ADMIN">ADMIN</option>
                   </select>
+                </div>
+                <br />
+
+                  <div class="col-4">
+                    <label for="fieldSelector" class="form-label">Field</label>
+                    <select id="fieldSelector" class="form-select d-non">
+                      <option value="F04">F04</option>
+                      <option value="F04">F05</option>
+
+                      <!-- Options will be populated dynamically -->
+                    </select>
+                  </div>
+                </div>
                 </div>
                 <!-- <div class="col-9 d-flex justify-content-end align-items-center">
         <button
