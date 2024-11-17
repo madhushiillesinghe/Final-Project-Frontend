@@ -1,4 +1,4 @@
-// import {set} from '../js/staffaddform'
+// Staff data
 let staffData = [
   {
     id: 1,
@@ -19,39 +19,32 @@ let staffData = [
   },
   // Other staff records
 ];
-$(document).ready(() => {
+
+// On document ready
+$(document).ready(function () {
   loadStaffTable(); // Initial table load
 });
 
+// Function to load staff table
 function loadStaffTable() {
-  const tbody = $("#staff-table-body");
-  tbody.empty(); // Clear existing rows
-  staffData.forEach((staffData) => {
-    tbody.append(`
-        <tr>
-          <td>${staffData.id}</td>
-          <td>${staffData.firstName + " " + staffData.lastName}</td>
-          <td>${
-            staffData.street + " " + staffData.city + " " + staffData.district
-          }</td>
-          <td>${staffData.role}</td>
-          <td>${staffData.contactNo}</td>
-          <td>${staffData.email}</td>
-          <td class="action-icons">
-            <i class="fas fa-edit me-3" onclick="editStaff(${
-              staffData.id
-            })"></i>
-            <i class="fas fa-trash-alt me-3" onclick="deleteStaff(${
-              staffData.id
-            })"></i>
-             <i 
-              class="fas fa-eye black-icon" 
-              onclick="viewStaff(${staffData.id})"
-          ></i>
-
-          </td>
-        </tr>
-      `);
+  const $tbody = $("#staff-table-body");
+  $tbody.empty(); // Clear existing rows
+  $.each(staffData, function (index, staff) {
+    $tbody.append(`
+      <tr>
+        <td>${staff.id}</td>
+        <td>${staff.firstName} ${staff.lastName}</td>
+        <td>${staff.street} ${staff.city} ${staff.district}</td>
+        <td>${staff.role}</td>
+        <td>${staff.contactNo}</td>
+        <td>${staff.email}</td>
+        <td class="action-icons">
+          <i class="fas fa-edit me-3" onclick="editStaff(${staff.id})"></i>
+          <i class="fas fa-trash-alt me-3" onclick="deleteStaff(${staff.id})"></i>
+          <i class="fas fa-eye black-icon" onclick="viewStaff(${staff.id})"></i>
+        </td>
+      </tr>
+    `);
   });
 
   // Ensure the icons are styled after they are added to the DOM
@@ -61,62 +54,59 @@ function loadStaffTable() {
 // Function to handle the edit icon click
 function editStaff(id) {
   setFormReadOnly(false);
-  document.querySelector(".update").style.display = "";
+  $(".update").show();
 
   // Find the staff record by ID
   const staff = staffData.find((s) => s.id === id);
 
   if (staff) {
     // Populate the form with the staff data
-    document.getElementById("id").value = staff.id;
-    document.getElementById("firstName").value = staff.firstName;
-    document.getElementById("lastName").value = staff.lastName;
-    document.getElementById("contactNo").value = staff.contactNo;
-    document.getElementById("email").value = staff.email;
-    document.getElementById("designation").value = staff.designation;
-    document.getElementById("gender").value = staff.gender;
-    document.getElementById("joinedDate").value = staff.joinedDate;
-    document.getElementById("dob").value = staff.dob;
-    document.getElementById("roadNumber").value = staff.roadNumber;
-    document.getElementById("street").value = staff.street;
-    document.getElementById("city").value = staff.city;
-    document.getElementById("district").value = staff.district;
-    document.getElementById("province").value = staff.province;
-    document.getElementById("role").value = staff.role;
+    $("#id").val(staff.id);
+    $("#firstName").val(staff.firstName);
+    $("#lastName").val(staff.lastName);
+    $("#contactNo").val(staff.contactNo);
+    $("#email").val(staff.email);
+    $("#designation").val(staff.designation);
+    $("#gender").val(staff.gender);
+    $("#joinedDate").val(staff.joinedDate);
+    $("#dob").val(staff.dob);
+    $("#roadNumber").val(staff.roadNumber);
+    $("#street").val(staff.street);
+    $("#city").val(staff.city);
+    $("#district").val(staff.district);
+    $("#province").val(staff.province);
+    $("#role").val(staff.role);
 
-    // Populate additional fields as needed
-    document.getElementById("editStaffModalLabel").innerText = "Edit Staff";
+    // Set modal title and button text
+    $("#editStaffModalLabel").text("Edit Staff");
+    $(".update").text("Update").off("click").on("click", saveStaffChanges);
 
-    const saveButton = document.querySelector(".update");
-    saveButton.innerText = "Update";
     // Show the modal
-    const editStaffModal = new bootstrap.Modal(
-      document.getElementById("editStaffModal")
-    );
+    const editStaffModal = new bootstrap.Modal($("#editStaffModal")[0]);
     editStaffModal.show();
   } else {
     alert("Staff not found!");
   }
 }
+
+// Function to save updated staff changes
 function saveStaffChanges() {
   const updatedStaff = {
-    id: document.getElementById("id").value,
-    firstName: document.getElementById("firstName").value,
-    lastName: document.getElementById("lastName").value,
-    contactNo: document.getElementById("contactNo").value,
-    email: document.getElementById("email").value,
-    role: document.getElementById("role").value,
-    province: document.getElementById("province").value,
-    district: document.getElementById("district").value,
-    city: document.getElementById("city"),
-    street: document.getElementById("street"),
-    roadNumber: document.getElementById("roadNumber").value,
-    dob: document.getElementById("dob").value,
-    joinedDate: document.getElementById("joinedDate").value,
-    gender: document.getElementById("gender").value,
-    designation: document.getElementById("designation").value,
-
-    // Include other fields
+    id: $("#id").val(),
+    firstName: $("#firstName").val(),
+    lastName: $("#lastName").val(),
+    contactNo: $("#contactNo").val(),
+    email: $("#email").val(),
+    role: $("#role").val(),
+    province: $("#province").val(),
+    district: $("#district").val(),
+    city: $("#city").val(),
+    street: $("#street").val(),
+    roadNumber: $("#roadNumber").val(),
+    dob: $("#dob").val(),
+    joinedDate: $("#joinedDate").val(),
+    gender: $("#gender").val(),
+    designation: $("#designation").val(),
   };
 
   // Update the staff data
@@ -124,24 +114,22 @@ function saveStaffChanges() {
   if (index !== -1) {
     staffData[index] = updatedStaff;
     alert("Staff details updated successfully!");
-    // Refresh the table if necessary
+    loadStaffTable(); // Refresh the table
   }
 
   // Close the modal
-  const editStaffModal = bootstrap.Modal.getInstance(
-    document.getElementById("editStaffModal")
-  );
+  const editStaffModal = bootstrap.Modal.getInstance($("#editStaffModal")[0]);
   editStaffModal.hide();
 }
+
+// Function to add new staff
 function addStaff() {
   resetFormFields();
-
-  // Enable all fields for editing
   setFormReadOnly(false);
-  document.querySelector(".update").style.display = "";
+  $(".update").show();
 
-  const fieldSelector = document.getElementById("fieldSelector");
-  fieldSelector.classList.remove("d-none");
+  const $fieldSelector = $("#fieldSelector");
+  $fieldSelector.removeClass("d-none");
 
   const fields = [
     { id: 1, name: "Field 1" },
@@ -149,184 +137,114 @@ function addStaff() {
     { id: 3, name: "Field 3" },
   ];
 
-  fieldSelector.innerHTML = "<option value=''>Select Field</option>"; // Reset options first
-  fields.forEach((field) => {
-    const option = document.createElement("option");
-    option.value = field.id;
-    option.textContent = field.name;
-    fieldSelector.appendChild(option);
+  $fieldSelector.empty().append("<option value=''>Select Field</option>");
+  $.each(fields, function (index, field) {
+    $fieldSelector.append(`<option value='${field.id}'>${field.name}</option>`);
   });
+
   // Clear all form fields
-  document.getElementById("id").value = ""; // Keep empty as ID will be auto-generated or set later
-  document.getElementById("firstName").value = "";
-  document.getElementById("lastName").value = "";
-  document.getElementById("contactNo").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("designation").value = "";
-  document.getElementById("gender").value = "MALE"; // Set a default value
-  document.getElementById("joinedDate").value = "";
-  document.getElementById("dob").value = "";
-  document.getElementById("roadNumber").value = "";
-  document.getElementById("street").value = "";
-  document.getElementById("city").value = "";
-  document.getElementById("district").value = "";
-  document.getElementById("province").value = "";
-  document.getElementById("role").value = "OTHER"; // Set a default value
+  $("#staffForm")[0].reset();
+  $("#role").val("OTHER");
+  $("#gender").val("MALE");
 
-  document.getElementById("editStaffModalLabel").innerText = "Add Staff";
-
-  const saveButton = document.querySelector(".update");
-  saveButton.innerText = "Save";
-  saveButton.setAttribute("onclick", "saveNewStaff()");
+  $("#editStaffModalLabel").text("Add Staff");
+  $(".update").text("Save").off("click").on("click", saveNewStaff);
 
   // Show the modal
-  const editStaffModal = new bootstrap.Modal(
-    document.getElementById("editStaffModal")
-  );
+  const editStaffModal = new bootstrap.Modal($("#editStaffModal")[0]);
   editStaffModal.show();
 }
 
+// Function to save new staff
 function saveNewStaff() {
   const newStaff = {
-    id: Date.now(), // Generate a unique ID for the new staff
-    firstName: document.getElementById("firstName").value,
-    lastName: document.getElementById("lastName").value,
-    contactNo: document.getElementById("contactNo").value,
-    email: document.getElementById("email").value,
-    role: document.getElementById("role").value,
-    province: document.getElementById("province").value,
-    district: document.getElementById("district").value,
-    city: document.getElementById("city").value,
-    street: document.getElementById("street").value,
-    roadNumber: document.getElementById("roadNumber").value,
-    dob: document.getElementById("dob").value,
-    joinedDate: document.getElementById("joinedDate").value,
-    gender: document.getElementById("gender").value,
-    designation: document.getElementById("designation").value,
+    id: Date.now(),
+    firstName: $("#firstName").val(),
+    lastName: $("#lastName").val(),
+    contactNo: $("#contactNo").val(),
+    email: $("#email").val(),
+    role: $("#role").val(),
+    province: $("#province").val(),
+    district: $("#district").val(),
+    city: $("#city").val(),
+    street: $("#street").val(),
+    roadNumber: $("#roadNumber").val(),
+    dob: $("#dob").val(),
+    joinedDate: $("#joinedDate").val(),
+    gender: $("#gender").val(),
+    designation: $("#designation").val(),
   };
 
   // Add the new staff to the staff data array
   staffData.push(newStaff);
   alert("New staff added successfully!");
-
-  // Refresh the staff table if necessary
-  populateStaffTable();
+  loadStaffTable(); // Refresh the table
 
   // Close the modal
-  const editStaffModal = bootstrap.Modal.getInstance(
-    document.getElementById("editStaffModal")
-  );
+  const editStaffModal = bootstrap.Modal.getInstance($("#editStaffModal")[0]);
   editStaffModal.hide();
 }
+
+// Function to delete staff
 function deleteStaff(id) {
   if (confirm("Are you sure you want to delete this staff member?")) {
     staffData = staffData.filter((s) => s.id !== id);
     loadStaffTable();
   }
 }
-// Function to save changes
 
+// Function to view staff details
 function viewStaff(id) {
-  // Find the staff record by ID
   const staff = staffData.find((s) => s.id === id);
-
   if (staff) {
     // Populate the form with staff data
-    document.getElementById("id").value = staff.id;
-    document.getElementById("firstName").value = staff.firstName;
-    document.getElementById("lastName").value = staff.lastName;
-    document.getElementById("contactNo").value = staff.contactNo;
-    document.getElementById("email").value = staff.email;
-    document.getElementById("designation").value = staff.designation;
-    document.getElementById("gender").value = staff.gender;
-    document.getElementById("joinedDate").value = staff.joinedDate;
-    document.getElementById("dob").value = staff.dob;
-    document.getElementById("roadNumber").value = staff.roadNumber;
-    document.getElementById("street").value = staff.street;
-    document.getElementById("city").value = staff.city;
-    document.getElementById("district").value = staff.district;
-    document.getElementById("province").value = staff.province;
-    document.getElementById("role").value = staff.role;
+    $("#id").val(staff.id);
+    $("#firstName").val(staff.firstName);
+    $("#lastName").val(staff.lastName);
+    $("#contactNo").val(staff.contactNo);
+    $("#email").val(staff.email);
+    $("#designation").val(staff.designation);
+    $("#gender").val(staff.gender);
+    $("#joinedDate").val(staff.joinedDate);
+    $("#dob").val(staff.dob);
+    $("#roadNumber").val(staff.roadNumber);
+    $("#street").val(staff.street);
+    $("#city").val(staff.city);
+    $("#district").val(staff.district);
+    $("#province").val(staff.province);
+    $("#role").val(staff.role);
 
     // Set all form fields to read-only
     setFormReadOnly(true);
+    $(".update").hide();
 
-    // Change the modal title
-    document.getElementById("editStaffModalLabel").innerText = "View Staff";
-
-    // Hide action buttons
-    document.querySelector(".update").style.display = "none";
+    // Set modal title
+    $("#editStaffModalLabel").text("View Staff");
 
     // Show the modal
-    const viewStaffModal = new bootstrap.Modal(
-      document.getElementById("editStaffModal")
-    );
+    const viewStaffModal = new bootstrap.Modal($("#editStaffModal")[0]);
     viewStaffModal.show();
   } else {
     alert("Staff not found!");
   }
 }
 
-document.getElementById("actionButton").addEventListener("click", function () {
-  const action = document.getElementById("staffForm").dataset.action;
-
-  const newStaffData = {
-    id: document.getElementById("id").value,
-    firstName: document.getElementById("firstName").value,
-    lastName: document.getElementById("lastName").value,
-    designation: document.getElementById("designation").value,
-    gender: document.getElementById("gender").value,
-    joinedDate: document.getElementById("joinedDate").value,
-    dob: document.getElementById("dob").value,
-    roadNumber: document.getElementById("roadNumber").value,
-    street: document.getElementById("street").value,
-    city: document.getElementById("city").value,
-    district: document.getElementById("district").value,
-    province: document.getElementById("province").value,
-    contactNo: document.getElementById("contactNo").value,
-    email: document.getElementById("email").value,
-    role: document.getElementById("role").value,
-  };
-
-  if (action === "edit") {
-    // Update the staff data in the array
-    const index = staffData.findIndex((s) => s.id == newStaffData.id);
-    if (index !== -1) {
-      staffData[index] = newStaffData;
-      alert("Staff details updated successfully!");
-    }
-  } else {
-    // Add new staff
-    staffData.push(newStaffData);
-    alert("New staff added successfully!");
-  }
-
-  loadStaffTable(); // Reload the table or other UI elements after update
-  resetForm(); // Reset the form to clear out data after action
-  window.location.href = "/pagesstaff.html"; // Update with actual staff table page path
-});
-
+// Function to reset form
 function resetForm() {
-  document.getElementById("staffForm").reset();
-  document.getElementById("actionButton").textContent = "Add";
-  document.getElementById("actionButton").style.backgroundColor = "green";
-  document.getElementById("staffForm").dataset.action = "add";
-}
-function setFormReadOnly(isReadOnly) {
-  const formFields = document.querySelectorAll(
-    "#staffForm input, #staffForm select"
-  );
-  formFields.forEach((field) => {
-    if (isReadOnly) {
-      field.setAttribute("readonly", true);
-      field.setAttribute("disabled", true); // For dropdowns
-    } else {
-      field.removeAttribute("readonly");
-      field.removeAttribute("disabled");
-    }
-  });
+  $("#staffForm")[0].reset();
+  $("#actionButton").text("Add").css("background-color", "green");
+  $("#staffForm").data("action", "add");
 }
 
+// Function to reset form fields
 function resetFormFields() {
-  document.getElementById("staffForm").reset(); // Reset form fields to default
+  $("#staffForm")[0].reset();
+}
+
+// Function to set form fields read-only
+function setFormReadOnly(isReadOnly) {
+  $("#staffForm input, #staffForm select").each(function () {
+    $(this).prop("readonly", isReadOnly);
+    $(this).prop("disabled", isReadOnly);
+  });
 }
