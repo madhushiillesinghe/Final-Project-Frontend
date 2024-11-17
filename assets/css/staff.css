@@ -39,3 +39,35 @@
 label {
   color: green;
 }
+.close {
+  color: #064d18;
+  float: right;
+  background-color: white;
+}
+
+.close:hover,
+.close:focus {
+  text-decoration: none;
+  cursor: pointer;
+  color: black;
+}
+.update{
+  background-color: #064d18;
+  color: white;
+}
+.update:hover,
+.update:focus {
+  background-color: rgb(17, 53, 20);
+  text-decoration: none;
+  cursor: pointer;
+}
+.black-icon {
+  color: black;
+  cursor: pointer;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.black-icon:hover {
+  color: gray; /* Optional hover effect */
+  transform: scale(1.1); /* Optional zoom effect */
+}
