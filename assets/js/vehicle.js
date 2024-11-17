@@ -56,7 +56,7 @@ function editVehicle(vehicleCode) {
     $("#StaffId").val(vehicle.StaffId);
     $("#editVehicleModalLabel").text("Edit Vehicle");
     $(".update").text("Update").attr("onclick", "saveVehicleChanges()");
-    
+
     // Show the modal
     const editVehicleModal = new bootstrap.Modal($("#editVehicleModal"));
     editVehicleModal.show();
@@ -108,7 +108,7 @@ function addVehicle() {
   $("#editVehicleModalLabel").text("Add Vehicle");
 
   $(".update").text("Save").attr("onclick", "saveNewVehicle()");
-  
+
   // Show the modal for adding a new vehicle
   const editVehicleModal = new bootstrap.Modal($("#editVehicleModal"));
   editVehicleModal.show();
@@ -177,7 +177,7 @@ function viewVehicle(vehicleCode) {
 
 function setFormReadOnly(isReadOnly) {
   const formFields = $("#vehicle-form input, #vehicle-form select");
-  formFields.each(function() {
+  formFields.each(function () {
     if (isReadOnly) {
       $(this).attr("readonly", true).attr("disabled", true);
     } else {

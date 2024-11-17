@@ -20,8 +20,8 @@
         </button>
 
         <!-- Field Table -->
-        <table class="table table-bordered">
-            <thead>
+        <table class="table table-boder">
+            <thead >
               <tr>
                 <th>Field Code</th>
                 <th>Field Name</th>
@@ -63,13 +63,15 @@
                       <label for="extentSize" class="form-label">Extent Size</label>
                       <input type="number" class="form-control" id="extentSize" />
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                       <label for="fieldImage1" class="form-label">Field Image 1</label>
-                      <input type="url" class="form-control" id="fieldImage1" />
+                      <input type="file" class="form-control" id="fieldImage1">
+                      <img id="fieldImage1Preview" src="" alt="Field Image 1 Preview" style="max-width: 100px; margin-top: 10px;">
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-3">
                       <label for="fieldImage2" class="form-label">Field Image 2</label>
-                      <input type="url" class="form-control" id="fieldImage2" />
+                      <input type="file" class="form-control" id="fieldImage2">
+                      <img id="fieldImage2Preview" src="" alt="Field Image 2 Preview" style="max-width: 100px; margin-top: 10px;">
                     </div>
                   </form>
                 </div>

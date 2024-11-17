@@ -5,7 +5,7 @@ let staffData = [
     lastName: "Doe",
     designation: "Scientist",
     gender: "MALE",
-    roadNo:"362A",
+    roadNo: "362A",
     street: "123 Main St",
     city: "Colombo",
     district: "Colombo",
@@ -116,7 +116,6 @@ function viewStaff(staffId) {
     alert("Staff not found!");
   }
 }
-
 
 function collectFormData() {
   return {
