@@ -58,7 +58,6 @@ function loadStaffTable() {
   $(".action-icons i").css("color", "black");
 }
 
-
 // Function to handle the edit icon click
 function editStaff(id) {
   setFormReadOnly(false);
@@ -147,11 +146,11 @@ function addStaff() {
   const fields = [
     { id: 1, name: "Field 1" },
     { id: 2, name: "Field 2" },
-    { id: 3, name: "Field 3" }
+    { id: 3, name: "Field 3" },
   ];
 
   fieldSelector.innerHTML = "<option value=''>Select Field</option>"; // Reset options first
-  fields.forEach(field => {
+  fields.forEach((field) => {
     const option = document.createElement("option");
     option.value = field.id;
     option.textContent = field.name;
@@ -174,13 +173,12 @@ function addStaff() {
   document.getElementById("province").value = "";
   document.getElementById("role").value = "OTHER"; // Set a default value
 
-   
   document.getElementById("editStaffModalLabel").innerText = "Add Staff";
- 
+
   const saveButton = document.querySelector(".update");
   saveButton.innerText = "Save";
   saveButton.setAttribute("onclick", "saveNewStaff()");
- 
+
   // Show the modal
   const editStaffModal = new bootstrap.Modal(
     document.getElementById("editStaffModal")
@@ -260,14 +258,14 @@ function viewStaff(id) {
     document.querySelector(".update").style.display = "none";
 
     // Show the modal
-    const viewStaffModal = new bootstrap.Modal(document.getElementById("editStaffModal"));
+    const viewStaffModal = new bootstrap.Modal(
+      document.getElementById("editStaffModal")
+    );
     viewStaffModal.show();
-
   } else {
     alert("Staff not found!");
   }
 }
-
 
 document.getElementById("actionButton").addEventListener("click", function () {
   const action = document.getElementById("staffForm").dataset.action;
@@ -315,7 +313,9 @@ function resetForm() {
   document.getElementById("staffForm").dataset.action = "add";
 }
 function setFormReadOnly(isReadOnly) {
-  const formFields = document.querySelectorAll("#staffForm input, #staffForm select");
+  const formFields = document.querySelectorAll(
+    "#staffForm input, #staffForm select"
+  );
   formFields.forEach((field) => {
     if (isReadOnly) {
       field.setAttribute("readonly", true);
@@ -330,5 +330,3 @@ function setFormReadOnly(isReadOnly) {
 function resetFormFields() {
   document.getElementById("staffForm").reset(); // Reset form fields to default
 }
-
-
