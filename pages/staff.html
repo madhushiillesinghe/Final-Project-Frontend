@@ -1,158 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Staff Management</title>
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- FontAwesome for Icons -->
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="/assets/css/staff.css" />
-  </head>
-  <body>
-    <section id="staff-table">
-      <div class="container mt-5">
-        <h2 class="mb-4">Staff Management</h2>
-        <button class="add-button btn btn-success" onclick="addStaff()" id="addbtn">
-          <i class="fa fa-plus"></i> Add
-        </button>
-        <table class="table table-striped">
-          <thead class="table-dark">
-            <tr>
-              <th>Id</th>
-              <th>Full Name</th>
-              <th>Address</th>
-              <th>Role</th>
-              <th>Mobile Number</th>
-              <th>Email</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="staff-table-body"></tbody>
-        </table>
-      </div>
-    </section>
-    <section id="staff-form">
-      <div
-        class="modal fade"
-        id="editStaffModal"
-        tabindex="-1"
-        aria-labelledby="editStaffModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-lg">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="editStaffModalLabel">Edit Staff</h5>
-              <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button>
-            </div>
-            <div class="modal-body">
-              <form id="staffForm">
-                <div class="mb-2 col-2">
-                  <label for="id" class="form-label">ID</label>
-                  <input type="text" class="form-control" id="id" readonly />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Staff Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/css/staff.css">
+</head>
+<body>
+  <div class="container mt-5">
+    <!-- Staff Table -->
+    <h2 class="mb-4">Staff Management</h2>
+    <button class="add-button btn btn-success mb-3" onclick="addStaff()" id="addbtn">
+      <i class="fa fa-plus"></i> Add
+    </button>
+    <table class="table table-striped">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Designation</th>
+          <th>Role</th>
+          <th>Contact No</th>
+          <th>Email</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="staff-table-body">
+        <!-- Staff rows will be injected here by JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Staff Form Modal (Add/Edit) -->
+  <section id="staff-form">
+    <div class="modal fade" id="editStaffModal" tabindex="-1" aria-labelledby="editStaffModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editStaffModalLabel">Add/Edit Staff</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <form id="staffForm">
+              <div class="mb-2 col-2">
+                <label for="id" class="form-label">ID</label>
+                <input type="text" class="form-control" id="id" readonly />
+              </div>
+              <div class="row mb-3">
+                <div class="col-4">
+                  <label for="firstName" class="form-label">First Name</label>
+                  <input type="text" class="form-control" id="firstName" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="firstName" class="form-label">First Name</label>
-                    <input type="text" class="form-control" id="firstName" />
-                  </div>
-                  <br />
-                  <div class="col-4">
-                    <label for="lastName" class="form-label">Last Name</label>
-                    <input type="text" class="form-control" id="lastName" />
-                  </div>
+                <div class="col-4">
+                  <label for="lastName" class="form-label">Last Name</label>
+                  <input type="text" class="form-control" id="lastName" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="designation" class="form-label"
-                      >Designation</label
-                    >
-                    <input type="text" class="form-control" id="designation" />
-                  </div>
-                  <br />
-                  <div class="col-3">
-                    <label for="gender" class="form-label">Gender</label>
-                    <select class="form-select" id="gender">
-                      <option value="MALE" selected>MALE</option>
-                      <option value="FEMALE">FEMALE</option>
-                    </select>
-                  </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4">
+                  <label for="designation" class="form-label">Designation</label>
+                  <input type="text" class="form-control" id="designation" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="joinedDate" class="form-label"
-                      >Joined Date</label
-                    >
-                    <input type="date" class="form-control" id="joinedDate" />
-                  </div>
-                  <br />
-                  <div class="col-4">
-                    <label for="dob" class="form-label">Date of Birth</label>
-                    <input type="date" class="form-control" id="dob" />
-                  </div>
+                <div class="col-4">
+                  <label for="gender" class="form-label">Gender</label>
+                  <select class="form-select" id="gender">
+                    <option value="MALE" selected>MALE</option>
+                    <option value="FEMALE">FEMALE</option>
+                  </select>
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="roadNumber" class="form-label"
-                      >Road Number</label
-                    >
-                    <input type="text" class="form-control" id="roadNumber" />
-                  </div>
-                  <br />
-                  <div class="col-4">
-                    <label for="street" class="form-label">Street</label>
-                    <input type="text" class="form-control" id="street" />
-                  </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4">
+                  <label for="street" class="form-label">Street</label>
+                  <input type="text" class="form-control" id="street" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="city" class="form-label">City</label>
-                    <input
-                      type="text"
-                      class="form-control"
-                      id="city"
-                      value="Colombo"
-                    />
-                  </div>
-                  <br />
-                  <div class="col-4">
-                    <label for="district" class="form-label">District</label>
-                    <input type="text" class="form-control" id="district" />
-                  </div>
+                <div class="col-4">
+                  <label for="city" class="form-label">City</label>
+                  <input type="text" class="form-control" id="city" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="province" class="form-label">Province</label>
-                    <input type="text" class="form-control" id="province" />
-                  </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-4">
+                  <label for="district" class="form-label">District</label>
+                  <input type="text" class="form-control" id="district" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
-                  <div class="col-4">
-                    <label for="contactNo" class="form-label"
-                      >Contact Number</label
-                    >
-                    <input type="text" class="form-control" id="contactNo" />
-                  </div>
-                  <br />
-                  <div class="col-4">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" />
-                  </div>
+                <div class="col-4">
+                  <label for="province" class="form-label">Province</label>
+                  <input type="text" class="form-control" id="province" />
                 </div>
-                <div class="row mb-3 column-gap-xxl-5">
+              </div>
+              <div class="row mb-3">
+                <div class="col-4">
+                  <label for="contactNo" class="form-label">Contact Number</label>
+                  <input type="text" class="form-control" id="contactNo" />
+                </div>
+                <div class="col-4">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="email" class="form-control" id="email" />
+                </div>
+              </div>
+              <div class="row mb-3">
                 <div class="col-4">
                   <label for="role" class="form-label">Role</label>
                   <select class="form-select" id="role">
@@ -161,65 +110,28 @@
                     <option value="ADMIN">ADMIN</option>
                   </select>
                 </div>
-                <br />
-
-                  <div class="col-4">
-                    <label for="fieldSelector" class="form-label">Field</label>
-                    <select id="fieldSelector" class="form-select d-non">
-                      <option value="F04">F04</option>
-                      <option value="F04">F05</option>
-
-                      <!-- Options will be populated dynamically -->
-                    </select>
-                  </div>
+                <div class="col-4">
+                  <label for="fieldSelector" class="form-label">Field</label>
+                  <select id="fieldSelector" class="form-select">
+                    <option value="F04">F04</option>
+                    <option value="F05">F05</option>
+                  </select>
                 </div>
-                </div>
-                <!-- <div class="col-9 d-flex justify-content-end align-items-center">
-        <button
-          id="actionButton"
-          style="background-color: green"
-          type="button"
-          class="btn btn-primary"
-        >
-          Add
-        </button>
-        <button
-          style="
-            background-color: aliceblue;
-            border: 1px solid green;
-            color: rgb(7, 83, 58);
-          "
-          type="button"
-          class="btn btn-primary ms-3"
-        >
-          Cancel
-        </button>
-      </div> -->
-              </form>
-            </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary close"
-                data-bs-dismiss="modal"
-              >
-                Cancel
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary update"
-                onclick="saveStaffChanges()"
-              >
-                Save Changes
-              </button>
-            </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            <button type="button" class="btn btn-primary update" onclick="saveStaffChanges()">Save Changes</button>
           </div>
         </div>
       </div>
-    </section>
-    <!-- Bootstrap JS and jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="\assets\js\staff.js"></script>
-  </body>
+    </div>
+  </section>
+
+  <!-- Bootstrap JS and jQuery -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/assets/js/staff.js"></script>
+</body>
 </html>
