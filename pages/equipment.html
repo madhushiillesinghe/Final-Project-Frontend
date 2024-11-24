@@ -17,9 +17,17 @@
     <link rel="stylesheet" href="/assets/css/staff.css" />
   </head>
   <body>
-    <div class="container mt-5">
-      <h2 class="mb-4">Equipment Management</h2>
-
+    <div class="container mt-5 ">
+      <h2 class="mb-4 fw-bold">EQUIPMENT MANAGEMENT</h2>
+      <div class="col-12 text-start mb-5">
+        <input
+          type="text"
+          id="search-bar"
+          class="form-control"
+          placeholder="Search Staff..."
+          onkeyup="searchEquipment()"
+        />
+      </div>
       <!-- Add Equipment Button -->
       <button
         class="add-button btn btn-success"
@@ -29,23 +37,10 @@
         <i class="fa fa-plus"></i> Add Equipment
       </button>
 
-      <!-- Equipment Table -->
-      <table class="table table-striped">
-        <thead class="table-dark">
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Status</th>
-            <th>Field Code</th>
-            <th>Staff ID</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody id="equipment-table-body">
-          <!-- Equipment rows will be dynamically added here -->
-        </tbody>
-      </table>
+      <div class="container mt-4">
+        <div class="row" id="equipment-container">
+        </div>
+      </div>
 
       <!-- Equipment Form Modal -->
       <div

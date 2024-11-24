@@ -14,12 +14,21 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="/assets/css/staff.css" />
+    <link rel="stylesheet" href="/assets/css/vehicle.css" />
   </head>
   <body>
     <section id="vehicle-table">
       <div class="container mt-5">
-        <h2 class="mb-4">Vehicle Management</h2>
+        <h2 class="mb-5 fw-bold">VEHICLE MANAGEMENT</h2>
+        <div class="col-12 text-start mb-5">
+          <input
+            type="text"
+            id="search-bar"
+            class="form-control"
+            placeholder="Search vehicle..."
+            onkeyup="searchVehicle()"
+          />
+        </div>
         <button
           class="add-button btn btn-success"
           onclick="addVehicle()"
@@ -27,19 +36,11 @@
         >
           <i class="fa fa-plus"></i> Add Vehicle
         </button>
-        <table class="table table-striped">
-          <thead class="table-dark">
-            <tr>
-              <th>Vehicle Code</th>
-              <th>License Plate</th>
-              <th>Category</th>
-              <th>Fuel Type</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="vehicle-table-body"></tbody>
-        </table>
+      </div>
+      <div class="container mt-4">
+        <div class="row" id="vehicle-container">
+          <!-- Staff cards will be dynamically added here -->
+        </div>
       </div>
     </section>
 

@@ -12,38 +12,62 @@ let vehicleData = [
 ];
 
 $(document).ready(() => {
-  loadVehicleTable(); // Initial table load
+  renderVehicleCards(); // Initial table load
 });
+const vehicleContainer = $("#vehicle-container");
+const vehicleModal = new bootstrap.Modal($("#editVehicleModal"));
+const vehicleForm = $("#vehicle-form");
 
-function loadVehicleTable() {
-  const tbody = $("#vehicle-table-body");
-  tbody.empty(); // Clear existing rows
-  vehicleData.forEach((vehicle) => {
-    tbody.append(`
-      <tr>
-        <td>${vehicle.vehicleCode}</td>
-        <td>${vehicle.licensePlateNo}</td>
-        <td>${vehicle.vehicleCategory}</td>
-        <td>${vehicle.fuelType}</td>
-        <td>${vehicle.status}</td>
-        <td class="action-icons">
-          <i class="fas fa-edit me-3" onclick="editVehicle('${vehicle.vehicleCode}')"></i>
-          <i class="fas fa-trash-alt me-3" onclick="deleteVehicle('${vehicle.vehicleCode}')"></i>
-          <i class="fas fa-eye black-icon" onclick="viewVehicle('${vehicle.vehicleCode}')"></i>
-        </td>
-      </tr>
-    `);
+function renderVehicleCards() {
+  vehicleContainer.empty();
+  vehicleData.forEach((vehicle, index) => {
+    const card = `
+      <div class="col-md-3">
+         <div class="vehicle-card position-relative">
+          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete vehicle" onclick="deleteVehicle(${index})"></i>
+          <i class="fas fa-user-circle text-dark " style="font-size: 40px;"></i> 
+          <h5>${vehicle.vehicleCode}</h5>
+          <p>${vehicle.licensePlateNo}</p>
+          <p>${vehicle.vehicleCategory}</p>
+          <p>${vehicle.fuelType}</p>
+          <p>${vehicle.status}</p>
+          <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
+            <i class="fas fa-edit text-dark" title="Edit Details" onclick="editVehicle(${index})"></i>        
+            <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewVehicle(${index})">
+            View <i class="fas fa-arrow-right ml-2 text-white"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    vehicleContainer.append(card);
   });
-
-  // Ensure the icons are styled after they are added to the DOM
-  $(".action-icons i").css("color", "black");
 }
 
-function editVehicle(vehicleCode) {
+function searchVehicle() {
+  const searchTerm = document.getElementById("search-bar").value.toLowerCase();
+  const vehicleCards = document.querySelectorAll(".vehicle-card");
+
+  vehicleCards.forEach((card) => {
+    const vehicleCode = card.querySelector("h5").textContent.toLowerCase();
+    const licensePlateNo = card.querySelector("p").textContent.toLowerCase();
+
+    if (
+      vehicleCode.includes(searchTerm) ||
+      licensePlateNo.includes(searchTerm)
+    ) {
+      card.style.display = "block"; // Show the card if it matches
+    } else {
+      card.style.display = "none"; // Hide the card if it doesn't match
+    }
+  });
+}
+
+function editVehicle(index) {
   setFormReadOnly(false);
   $(".update").show();
   // Find the vehicle record by code
-  const vehicle = vehicleData.find((v) => v.vehicleCode === vehicleCode);
+  const vehicle = vehicleData[index];
 
   if (vehicle) {
     // Populate the form with the vehicle data
@@ -83,7 +107,7 @@ function saveVehicleChanges() {
   if (index !== -1) {
     vehicleData[index] = updatedVehicle;
     alert("Vehicle details updated successfully!");
-    loadVehicleTable(); // Refresh the table
+    renderVehicleCards(); // Refresh the table
   }
 
   // Close the modal
@@ -106,6 +130,7 @@ function addVehicle() {
   $("#remarks").val("");
   $("#StaffId").val("");
   $("#editVehicleModalLabel").text("Add Vehicle");
+  $("#vehicleCode").val(`V${String(vehicleData.length + 1).padStart(3, "0")}`);
 
   $(".update").text("Save").attr("onclick", "saveNewVehicle()");
 
@@ -130,23 +155,23 @@ function saveNewVehicle() {
   alert("New vehicle added successfully!");
 
   // Refresh the vehicle table
-  loadVehicleTable();
+  renderVehicleCards();
 
   // Close the modal
   const editVehicleModal = bootstrap.Modal.getInstance($("#editVehicleModal"));
   editVehicleModal.hide();
 }
 
-function deleteVehicle(vehicleCode) {
+function deleteVehicle(index) {
   if (confirm("Are you sure you want to delete this vehicle?")) {
-    vehicleData = vehicleData.filter((v) => v.vehicleCode !== vehicleCode);
-    loadVehicleTable();
+    vehicleData.splice(index);
+    renderVehicleCards();
   }
 }
 
-function viewVehicle(vehicleCode) {
+function viewVehicle(index) {
   // Find the vehicle record by code
-  const vehicle = vehicleData.find((v) => v.vehicleCode === vehicleCode);
+  const vehicle = vehicleData[index];
 
   if (vehicle) {
     // Populate the form with vehicle data

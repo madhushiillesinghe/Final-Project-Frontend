@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Staff Management</title>
     <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
@@ -17,15 +25,26 @@
   <body>
     <div class="container mt-5">
       <!-- Staff Table -->
-      <h2 class="mb-4">Staff Management</h2>
+      <h2 class="mb-5 fw-bold">STAFF MANAGEMENT</h2>
+      <div class="col-12 text-start mb-5">
+        <input
+          type="text"
+          id="search-bar"
+          class="form-control"
+          placeholder="Search Staff..."
+          onkeyup="searchStaff()"
+        />
+      </div>
       <button
-        class="add-button btn btn-success mb-3"
+        class="add-button btn btn-success mb-5"
         onclick="addStaff()"
         id="addbtn"
       >
         <i class="fa fa-plus"></i> Add
       </button>
-      <table class="table table-striped">
+    </div>
+
+    <!-- <table class="table table-striped">
         <thead class="table-dark">
           <tr>
             <th>ID</th>
@@ -38,9 +57,12 @@
           </tr>
         </thead>
         <tbody id="staff-table-body">
-          <!-- Staff rows will be injected here by JavaScript -->
         </tbody>
-      </table>
+      </table> -->
+    <div class="container mt-4">
+      <div class="row" id="staff-container">
+        <!-- Staff cards will be dynamically added here -->
+      </div>
     </div>
 
     <!-- Staff Form Modal (Add/Edit) -->
@@ -189,6 +211,9 @@
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <script src="/assets/js/staff.js"></script>
   </body>
 </html>

@@ -17,36 +17,35 @@ let staffData = [
     joinedDate: "2022-01-01",
     dob: "1985-07-20",
   },
-  // Add more sample data if needed...
 ];
 
 $(document).ready(() => {
-  loadStaffTable(); // Initial table load
+  renderStaffCards();
 });
 
-function loadStaffTable() {
-  const tbody = $("#staff-table-body");
-  tbody.empty(); // Clear existing rows
-  staffData.forEach((staff) => {
-    tbody.append(`
-      <tr>
-        <td>${staff.id}</td>
-        <td>${staff.firstName} ${staff.lastName}</td>
-        <td>${staff.designation}</td>
-        <td>${staff.role}</td>
-        <td>${staff.contactNo}</td>
-        <td>${staff.email}</td>
-        <td class="action-icons">
-          <i class="fas fa-edit me-3" onclick="editStaff('${staff.id}')"></i>
-          <i class="fas fa-trash-alt me-3" onclick="deleteStaff('${staff.id}')"></i>
-          <i class="fas fa-eye black-icon" onclick="viewStaff('${staff.id}')"></i>
-        </td>
-      </tr>
-    `);
-  });
+// function loadStaffTable() {
+//   const tbody = $("#staff-table-body");
+//   tbody.empty(); // Clear existing rows
+//   staffData.forEach((staff) => {
+//     tbody.append(`
+//       <tr>
+//         <td>${staff.id}</td>
+//         <td>${staff.firstName} ${staff.lastName}</td>
+//         <td>${staff.designation}</td>
+//         <td>${staff.role}</td>
+//         <td>${staff.contactNo}</td>
+//         <td>${staff.email}</td>
+//         <td class="action-icons">
+//           <i class="fas fa-edit me-3" onclick="editStaff('${staff.id}')"></i>
+//           <i class="fas fa-trash-alt me-3" onclick="deleteStaff('${staff.id}')"></i>
+//           <i class="fas fa-eye black-icon" onclick="viewStaff('${staff.id}')"></i>
+//         </td>
+//       </tr>
+//     `);
+//   });
 
-  $(".action-icons i").css("color", "black");
-}
+//   $(".action-icons i").css("color", "black");
+// }
 
 function addStaff() {
   resetFormFields();
@@ -63,15 +62,15 @@ function saveNewStaff() {
   const newStaff = collectFormData();
   staffData.push(newStaff);
   alert("New staff member added successfully!");
-  loadStaffTable();
+  renderStaffCards();
   const modal = bootstrap.Modal.getInstance($("#editStaffModal"));
   modal.hide();
 }
 
-function editStaff(staffId) {
+function editStaff(index) {
   setFormReadOnly(false);
   $(".update").show();
-  const staff = staffData.find((s) => s.id === staffId);
+  const staff = staffData[index];
   if (staff) {
     populateFormFields(staff);
     $("#editStaffModalLabel").text("Edit Staff");
@@ -85,33 +84,32 @@ function editStaff(staffId) {
 
 function saveStaffChanges() {
   const updatedStaff = collectFormData();
-  const index = staffData.findIndex((s) => s.id === updatedStaff.id);
+  const index = staffData.findIndex((s) => s.index === updatedStaff.index);
   if (index !== -1) {
     staffData[index] = updatedStaff;
     alert("Staff details updated successfully!");
-    loadStaffTable();
+    renderStaffCards();
   }
   const modal = bootstrap.Modal.getInstance($("#editStaffModal"));
   modal.hide();
 }
 
-function deleteStaff(staffId) {
+function deleteStaff(index) {
   if (confirm("Are you sure you want to delete this staff member?")) {
-    staffData = staffData.filter((s) => s.id !== staffId);
+    staffData.splice(index, 1);
     alert("Staff member deleted successfully!");
-    loadStaffTable();
+    renderStaffCards();
   }
 }
 
-function viewStaff(staffId) {
-  const staff = staffData.find((s) => s.id === staffId);
+function viewStaff(index) {
+  const staff = staffData[index];
   if (staff) {
     populateFormFields(staff);
     setFormReadOnly(true);
     $("#editStaffModalLabel").text("View Staff");
     $(".update").hide();
-    const viewModal = new bootstrap.Modal($("#editStaffModal"));
-    viewModal.show();
+    staffModal.show();
   } else {
     alert("Staff not found!");
   }
@@ -171,4 +169,53 @@ function setFormReadOnly(isReadOnly) {
 
 function resetFormFields() {
   $("#staffForm")[0].reset();
+}
+
+const staffContainer = $("#staff-container");
+const staffModal = new bootstrap.Modal($("#editStaffModal"));
+const staffForm = $("#staff-form");
+
+// Load staff cards
+function renderStaffCards() {
+  staffContainer.empty();
+  staffData.forEach((staff, index) => {
+    const card = `
+      <div class="col-md-3">
+         <div class="staff-card position-relative">
+          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete Staff" onclick="deleteStaff(${index})"></i>
+    <i class="fas fa-user-circle text-dark " style="font-size: 40px;"></i> 
+          <h5>${staff.firstName} ${staff.lastName}</h5>
+          <p>${staff.designation}</p>
+          <p>${staff.contactNo}</p>
+          <p>${staff.email}</p>
+          <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
+            <i class="fas fa-edit text-dark" title="Edit Details" onclick="editStaff(${index})"></i>        
+            <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewStaff(${index})">
+            View <i class="fas fa-arrow-right ml-2 text-white"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    `;
+    staffContainer.append(card);
+  });
+}
+
+function searchStaff() {
+  const searchTerm = document.getElementById("search-bar").value.toLowerCase();
+  const staffCards = document.querySelectorAll(".staff-card");
+
+  staffCards.forEach((card) => {
+    const staffName = card.querySelector("h5").textContent.toLowerCase();
+    const staffDesignation = card.querySelector("p").textContent.toLowerCase();
+
+    if (
+      staffName.includes(searchTerm) ||
+      staffDesignation.includes(searchTerm)
+    ) {
+      card.style.display = "block"; // Show the card if it matches
+    } else {
+      card.style.display = "none"; // Hide the card if it doesn't match
+    }
+  });
 }
