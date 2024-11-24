@@ -111,27 +111,7 @@ function viewField(fieldCode) {
   }
 }
 
-// Helper Function: Get Form Data
-// function getFieldFormData() {
-//   return {
-//     fieldCode: $("#fieldCode").val(),
-//     fieldName: $("#fieldName").val(),
-//     fieldLocation: $("#fieldLocation").val(),
-//     extentSize: parseFloat($("#extentSize").val()),
-//     fieldImage1: $("#fieldImage1").val(),
-//     fieldImage2: $("#fieldImage2").val(),
-//   };
-// }
 
-// Helper Function: Populate Form with Field Data
-// function populateForm(field) {
-//   $("#fieldCode").val(field.fieldCode);
-//   $("#fieldName").val(field.fieldName);
-//   $("#fieldLocation").val(field.fieldLocation);
-//   $("#extentSize").val(field.extentSize);
-//   $("#fieldImage1").val(field.fieldImage1);
-//   $("#fieldImage2").val(field.fieldImage2);
-// }
 function populateForm(field) {
   $("#fieldCode").val(field.fieldCode);
   $("#fieldName").val(field.fieldName);
