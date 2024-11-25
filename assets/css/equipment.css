@@ -1,0 +1,107 @@
+body {
+    background-color: #f8f9fa;
+    background-size: cover;
+    height: 100vh;
+    color: #333; /* Adjust text color for better visibility */
+  }
+  .equipment-card {
+    position: relative;
+    background-image: url("/assets/image/equipmentcard.png"); /* Path to your image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: white; /* Ensures text color is white to contrast with the image */
+    opacity: 100;
+  }
+  .equipment-card h5 {
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: #000;
+  }
+  .equipment-card p {
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+    color: #000;
+  }
+  .equipment-card .action-icons i {
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin: 0 5px;
+  }
+  .equipment-card .action-icons i:hover {
+    color: #060a0e;
+  }
+  .action-buttons i:hover {
+    color: #000; /* Keeps the hover color black */
+    transform: scale(1.1); /* Adds a slight zoom effect */
+  }
+  .equipment-card .fa-edit {
+    color: white; /* White color for the icon */
+    padding: 10px; /* Adds space around the icon */
+    font-size: 18px; /* Adjusts the size of the icon */
+    cursor: pointer; /* Makes it clickable */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+  }
+  
+  /* add btn */
+  .add-button {
+    position: fixed;
+    top: 30px;
+    left: 1490px;
+    margin: 75px 13px;
+    font-size: 16px;
+    background-color: #4caf50; /* Green */
+    color: white;
+    border: none;
+    border-radius: 5%;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .add-button:hover {
+    background-color: #45a049; /* Darker green */
+  }
+  
+  .add-button i {
+    font-size: 1rem;
+  }
+  /* Add form */
+  label {
+    color: green;
+  }
+  .close {
+    color: #064d18;
+    float: right;
+    background-color: white;
+  }
+  
+  .close:hover,
+  .close:focus {
+    text-decoration: none;
+    cursor: pointer;
+    color: black;
+  }
+  .update {
+    background-color: #064d18;
+    color: white;
+  }
+  .update:hover,
+  .update:focus {
+    background-color: rgb(17, 53, 20);
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
+  #search-bar {
+    width: 100%; /* Makes the search bar take full width */
+    max-width: 300px; /* Restricts the width for better design */
+    border-radius: 30px; /* Makes the search bar rounded */
+    padding: 10px; /* Adds some space inside the search bar */
+    border: 1px solid #ccc; /* Border color for the search bar */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+  }
+  

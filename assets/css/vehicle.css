@@ -6,7 +6,7 @@ body {
 }
 .vehicle-card {
   position: relative;
-  background-image: url("/assets/image//vehicleCard.png"); /* Path to your image */
+  background-image: url("/assets/image/abstract-bright-green-square-pixel-tile-mosaic-wall-background-texture.jpg"); /* Path to your image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

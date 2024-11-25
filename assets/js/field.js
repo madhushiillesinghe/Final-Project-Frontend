@@ -51,9 +51,9 @@ function renderFieldCards() {
           <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete Field" onclick="deleteField(${index})"></i>
         <img src="/assets/image/field.png" alt="User Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
           <h5>${field.fieldName}</h5>
-          <p>${field.fieldCode}</p>
-          <p>${field.fieldLocation}</p>
-          <p>${field.extentSize}</p>
+          <p>code :${field.fieldCode}</p>
+          <p> Location:${field.fieldLocation}</p>
+          <p>extend size :${field.extentSize}</p>
           <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
             <i class="fas fa-edit text-dark" title="Edit Details" onclick="editfield(${index})"></i>        
             <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewField(${index})">

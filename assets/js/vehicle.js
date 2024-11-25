@@ -25,12 +25,12 @@ function renderVehicleCards() {
       <div class="col-md-3">
          <div class="vehicle-card position-relative">
           <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete vehicle" onclick="deleteVehicle(${index})"></i>
-          <i class="fas fa-user-circle text-dark " style="font-size: 40px;"></i> 
+        <img src="/assets/image/vehicleicon.png" alt="User Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
           <h5>${vehicle.vehicleCode}</h5>
-          <p>${vehicle.licensePlateNo}</p>
-          <p>${vehicle.vehicleCategory}</p>
-          <p>${vehicle.fuelType}</p>
-          <p>${vehicle.status}</p>
+          <p> plate no : ${vehicle.licensePlateNo}</p>
+          <p> category : ${vehicle.vehicleCategory}</p>
+          <p> fuel Type: ${vehicle.fuelType}</p>
+          <p>  status  :${vehicle.status}</p>
           <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
             <i class="fas fa-edit text-dark" title="Edit Details" onclick="editVehicle(${index})"></i>        
             <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewVehicle(${index})">

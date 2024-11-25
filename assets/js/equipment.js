@@ -12,31 +12,9 @@ let equipmentData = [
 
 // Load equipment table on page ready
 $(document).ready(() => {
-  renderEquipemtCards()
+  renderEquipemtCards();
 });
 
-function loadEquipmentTable() {
-  const tbody = $("#equipment-table-body");
-  tbody.empty(); // Clear existing rows
-
-  equipmentData.forEach((equipment) => {
-    tbody.append(`
-        <tr>
-          <td>${equipment.id}</td>
-          <td>${equipment.name}</td>
-          <td>${equipment.type}</td>
-          <td>${equipment.status}</td>
-          <td>${equipment.fieldCode}</td>
-          <td>${equipment.staffId}</td>
-          <td class="action-icons">
-            <i class="fas fa-edit me-3" onclick="editEquipment('${equipment.id}')"></i>
-            <i class="fas fa-trash-alt me-3" onclick="deleteEquipment('${equipment.id}')"></i>
-            <i class="fas fa-eye black-icon" onclick="viewEquipment('${equipment.id}')"></i>
-          </td>
-        </tr>
-      `);
-  });
-}
 
 const equipmentContainer = $("#equipment-container");
 const equipmentModal = new bootstrap.Modal($("#editEquipmentModal"));
@@ -45,40 +23,40 @@ const equipmentForm = $("#equipment-form");
 // Load staff cards
 function renderEquipemtCards() {
   equipmentContainer.empty();
-  equipmentData.forEach((staff, index) => {
+  equipmentData.forEach((equipment, index) => {
     const card = `
       <div class="col-md-3">
-         <div class="staff-card position-relative">
-          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete Staff" onclick="deleteStaff(${index})"></i>
-    <i class="fas fa-user-circle text-dark " style="font-size: 40px;"></i> 
-          <h5>${staff.firstName} ${staff.lastName}</h5>
-          <p>${staff.designation}</p>
-          <p>${staff.contactNo}</p>
-          <p>${staff.email}</p>
+         <div class="equipment-card position-relative">
+          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete equipment" onclick="deleteEquipment(${index})"></i>
+        <img src="/assets/image/equipmenticon.png" alt="User Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
+          <h5>${equipment.name}</h5>
+          <p>${equipment.id}</p>
+          <p>${equipment.type}</p>
+          <p>${equipment.status}</p>
           <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
-            <i class="fas fa-edit text-dark" title="Edit Details" onclick="editStaff(${index})"></i>        
-            <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewStaff(${index})">
+            <i class="fas fa-edit text-dark" title="Edit Details" onclick="editEquipment(${index})"></i>        
+            <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewEquipment(${index})">
             View <i class="fas fa-arrow-right ml-2 text-white"></i>
             </button>
           </div>
         </div>
       </div>
     `;
-    staffContainer.append(card);
+    equipmentContainer.append(card);
   });
 }
 
-function searchStaff() {
+function searchEquipment() {
   const searchTerm = document.getElementById("search-bar").value.toLowerCase();
-  const staffCards = document.querySelectorAll(".staff-card");
+  const equipmentCards = document.querySelectorAll(".equipment-card");
 
-  staffCards.forEach((card) => {
-    const staffName = card.querySelector("h5").textContent.toLowerCase();
-    const staffDesignation = card.querySelector("p").textContent.toLowerCase();
+  equipmentCards.forEach((card) => {
+    const equipmentName = card.querySelector("h5").textContent.toLowerCase();
+    const equipmentid = card.querySelector("p").textContent.toLowerCase();
 
     if (
-      staffName.includes(searchTerm) ||
-      staffDesignation.includes(searchTerm)
+      equipmentName.includes(searchTerm) ||
+      equipmentid.includes(searchTerm)
     ) {
       card.style.display = "block"; // Show the card if it matches
     } else {
@@ -87,14 +65,14 @@ function searchStaff() {
   });
 }
 
-function editEquipment(id) {
-  const equipment = equipmentData.find((e) => e.id === id);
+function editEquipment(index) {
+  setFormReadOnly(false);
+  $(".update").show();
+  const equipment = equipmentData[index];
   if (equipment) {
     populateForm(equipment);
     $("#editEquipmentModalLabel").text("Edit Equipment");
-    $(".update")
-      .text("Update")
-      .attr("onclick", `saveEquipmentChanges('${id}')`);
+    $(".update").text("Update").attr("onclick", `saveEquipmentChanges()`);
     const editModal = new bootstrap.Modal($("#editEquipmentModal"));
     editModal.show();
   } else {
@@ -102,13 +80,13 @@ function editEquipment(id) {
   }
 }
 
-function saveEquipmentChanges(id) {
+function saveEquipmentChanges() {
   const updatedEquipment = getFormData();
-  const index = equipmentData.findIndex((e) => e.id === id);
+  const index = equipmentData.findIndex((e) => e.id === updatedEquipment.id);
   if (index !== -1) {
     equipmentData[index] = updatedEquipment;
     alert("Equipment updated successfully!");
-    loadEquipmentTable();
+    renderEquipemtCards();
     closeModal();
   }
 }
@@ -117,6 +95,9 @@ function addEquipment() {
   resetFormFields();
   $("#editEquipmentModalLabel").text("Add Equipment");
   $(".update").text("Save").attr("onclick", "saveNewEquipment()");
+  $("#equipmentId").val(
+    `E${String(equipmentData.length + 1).padStart(3, "0")}`
+  );
   const addModal = new bootstrap.Modal($("#editEquipmentModal"));
   addModal.show();
 }
@@ -125,20 +106,19 @@ function saveNewEquipment() {
   const newEquipment = getFormData();
   equipmentData.push(newEquipment);
   alert("New equipment added successfully!");
-  loadEquipmentTable();
+  renderEquipemtCards();
   closeModal();
 }
 
-function deleteEquipment(id) {
+function deleteEquipment(index) {
   if (confirm("Are you sure you want to delete this equipment?")) {
-    equipmentData = equipmentData.filter((e) => e.id !== id);
-    loadEquipmentTable();
-    alert("Equipment deleted successfully!");
+    equipmentData.splice(index, 1);
+    renderEquipemtCards();
   }
 }
 
-function viewEquipment(id) {
-  const equipment = equipmentData.find((e) => e.id === id);
+function viewEquipment(index) {
+  const equipment = equipmentData[index];
   if (equipment) {
     populateForm(equipment);
     setFormReadOnly(true);
