@@ -2,7 +2,7 @@
   position: fixed;
   top: 30px;
   left: 1490px;
- margin:75px 13px;
+  margin: 75px 13px;
   font-size: 16px;
   background-color: #4caf50; /* Green */
   color: white;
@@ -64,7 +64,7 @@ body {
   opacity: 100; */
 
   position: relative;
-  background-image: url('/assets/image/staffCardBackground.jpg'); /* Path to your image */
+  background-image: url("/assets/image/staffCardBackground.jpg"); /* Path to your image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -73,7 +73,7 @@ body {
   padding: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   color: white; /* Ensures text color is white to contrast with the image */
-  opacity: 100; 
+  opacity: 100;
 }
 .staff-card h5 {
   margin-top: 10px;
@@ -84,7 +84,6 @@ body {
   margin-bottom: 5px;
   font-size: 0.9rem;
   color: #000;
-
 }
 .staff-card .action-icons i {
   font-size: 1.2rem;

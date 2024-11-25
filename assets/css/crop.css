@@ -4,9 +4,9 @@ body {
   height: 100vh;
   color: #333; /* Adjust text color for better visibility */
 }
-.equipment-card {
+.crop-card {
   position: relative;
-  background-image: url("/assets/image/equipmentcard.png"); /* Path to your image */
+  background-image: url("/assets/image//crop\ background.jpg"); /* Path to your image */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -17,29 +17,29 @@ body {
   color: white; /* Ensures text color is white to contrast with the image */
   opacity: 100;
 }
-.equipment-card h5 {
+.crop-card h5 {
   margin-top: 10px;
   font-size: 1.2rem;
   color: #000;
 }
-.equipment-card p {
+.crop-card p {
   margin-bottom: 5px;
   font-size: 0.9rem;
   color: #000;
 }
-.equipment-card .action-icons i {
+.crop-card .action-icons i {
   font-size: 1.2rem;
   cursor: pointer;
   margin: 0 5px;
 }
-.equipment-card .action-icons i:hover {
+.crop-card .action-icons i:hover {
   color: #060a0e;
 }
 .action-buttons i:hover {
   color: #000; /* Keeps the hover color black */
   transform: scale(1.1); /* Adds a slight zoom effect */
 }
-.equipment-card .fa-edit {
+.crop-card .fa-edit {
   color: white; /* White color for the icon */
   padding: 10px; /* Adds space around the icon */
   font-size: 18px; /* Adjusts the size of the icon */
@@ -85,12 +85,12 @@ label {
   cursor: pointer;
   color: black;
 }
-.update {
+#saveCropBtn {
   background-color: #064d18;
   color: white;
 }
-.update:hover,
-.update:focus {
+#saveCropBtn:hover,
+#saveCropBtn:focus {
   background-color: rgb(17, 53, 20);
   text-decoration: none;
   cursor: pointer;

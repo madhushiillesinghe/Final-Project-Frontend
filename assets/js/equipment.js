@@ -15,7 +15,6 @@ $(document).ready(() => {
   renderEquipemtCards();
 });
 
-
 const equipmentContainer = $("#equipment-container");
 const equipmentModal = new bootstrap.Modal($("#editEquipmentModal"));
 const equipmentForm = $("#equipment-form");
