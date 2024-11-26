@@ -1,65 +1,68 @@
 /* /assets/css/monitoring-log.css */
 body {
-    font-family: Arial, sans-serif;
-  }
-  
-  h2 {
-    text-transform: uppercase;
-    color: #343a40;
-  }
-  
-  .btn-success {
-    display: inline-block;
-  }
-  
-  .table {
-    margin-top: 20px;
-  }
-  
-  .modal-header {
-    background-color: #343a40;
-    color: #fff;
-  }
-  
-  .modal-footer .btn-primary {
-    background-color: #28a745;
-    border-color: #28a745;
-  }
-  
-  .modal-footer .btn-secondary {
-    border-color: #6c757d;
-  }
-  
-  textarea {
-    resize: none;
-  }
-  /* add  btn */
-  .add-button {
-    position: fixed;
-    top: 30px;
-    left: 1490px;
-    margin: 75px 13px;
-    font-size: 16px;
-    background-color: #4caf50; /* Green */
-    color: white;
-    border: none;
-    border-radius: 5%;
-    cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .add-button:hover {
-    background-color: #45a049; /* Darker green */
-  }
-  
-  .add-button i {
-    font-size: 1rem;
-  }
-  #search-bar {
-    width: 100%; /* Makes the search bar take full width */
-    max-width: 300px; /* Restricts the width for better design */
-    border-radius: 30px; /* Makes the search bar rounded */
-    padding: 10px; /* Adds some space inside the search bar */
-    border: 1px solid #ccc; /* Border color for the search bar */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
-  }
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-transform: uppercase;
+  color: #343a40;
+}
+
+.btn-success {
+  display: inline-block;
+}
+
+.table {
+  margin-top: 20px;
+}
+
+.modal-header {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.modal-footer .btn-primary {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+.modal-footer .btn-secondary {
+  border-color: #6c757d;
+}
+
+textarea {
+  resize: none;
+}
+/* add  btn */
+.add-button {
+  position: fixed;
+  top: 30px;
+  left: 1490px;
+  margin: 75px 13px;
+  font-size: 16px;
+  background-color: #4caf50; /* Green */
+  color: white;
+  border: none;
+  border-radius: 5%;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-button:hover {
+  background-color: #45a049; /* Darker green */
+}
+
+.add-button i {
+  font-size: 1rem;
+}
+#search-bar {
+  width: 100%; /* Makes the search bar take full width */
+  max-width: 300px; /* Restricts the width for better design */
+  border-radius: 30px; /* Makes the search bar rounded */
+  padding: 10px; /* Adds some space inside the search bar */
+  border: 1px solid #ccc; /* Border color for the search bar */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
+}
+thead{
+  color: #28a745;
+}

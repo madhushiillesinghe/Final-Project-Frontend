@@ -98,7 +98,6 @@ body {
   transform: scale(1.1); /* Adds a slight zoom effect */
 }
 .staff-card .fa-edit {
-  background-color: rgb(117, 40, 40); /* Black background */
   color: white; /* White color for the icon */
   border-radius: 50%; /* Makes it circular */
   padding: 10px; /* Adds space around the icon */
