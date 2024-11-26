@@ -1,47 +1,63 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    rel="stylesheet"
-  />
-  <link rel="stylesheet" href="/assets/css/sidebar.css">
-</head>
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/assets/css/sidebar.css" />
+  </head>
 
-<body>
+  <body>
     <!-- sidebar.html -->
-<div id="sidebar" class="sidebar">
-    <h3>Welcome back</h3>
-    <ul>
-      <li><a href="/pages/dashboard.html"><i class="fas fa-tachometer-alt"></i>Dashboard</a></li>
-      <li><a href="/pages/staff.html"><i class="fas fa-users"></i>Staff</a></li>
-      <li><a href="/pages/crop.html"> <i class="fas fa-seedling"></i>Crop</a></li>
-      <li><a href="/pages/vehicle.html"><i class="fas fa-truck"></i>Vehicle</a></li>
-      <li><a href="/pages/field.html"> <i class="fas fa-map"></i>Field</a></li>
-      <li><a href="/pages/equipment.html"><i class="fas fa-tools"></i>Equipment</a></li>
-      <li><a href="/pages/moniteringlog.html"><i class="fas fa-file-alt"></i>Monitering Log</a></li>
-
-    </ul>
-  </div>
-</body>
+    <div id="sidebar" class="sidebar">
+      <h3>Welcome back</h3>
+      <ul>
+        <li>
+          <a href="/pages/dashboard.html"
+            ><i class="fas fa-tachometer-alt"></i>Dashboard</a
+          >
+        </li>
+        <li>
+          <a href="/pages/staff.html"><i class="fas fa-users"></i>Staff</a>
+        </li>
+        <li>
+          <a href="/pages/crop.html"> <i class="fas fa-seedling"></i>Crop</a>
+        </li>
+        <li>
+          <a href="/pages/vehicle.html"><i class="fas fa-truck"></i>Vehicle</a>
+        </li>
+        <li>
+          <a href="/pages/field.html"> <i class="fas fa-map"></i>Field</a>
+        </li>
+        <li>
+          <a href="/pages/equipment.html"
+            ><i class="fas fa-tools"></i>Equipment</a
+          >
+        </li>
+        <li>
+          <a href="/pages/moniteringlog.html"
+            ><i class="fas fa-file-alt"></i>Monitering Log</a
+          >
+        </li>
+      </ul>
+    </div>
+  </body>
 </html>
 
-  
-
 <!-- Add this script in the <body> of each HTML page -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-          fetch("sidebar.html")
-            .then((response) => response.text())
-            .then((html) => {
-              const tempDiv = document.createElement("div");
-              tempDiv.innerHTML = html;
-              document.body.insertAdjacentElement("afterbegin", tempDiv);
-            })
-            .catch((error) => console.error("Error loading sidebar:", error));
-        });
-      </script>
-        
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    fetch("sidebar.html")
+      .then((response) => response.text())
+      .then((html) => {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = html;
+        document.body.insertAdjacentElement("afterbegin", tempDiv);
+      })
+      .catch((error) => console.error("Error loading sidebar:", error));
+  });
+</script>

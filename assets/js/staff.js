@@ -176,30 +176,34 @@ const staffModal = new bootstrap.Modal($("#editStaffModal"));
 const staffForm = $("#staff-form");
 
 // Load staff cards
+
 function renderStaffCards() {
-  staffContainer.empty();
-  staffData.forEach((staff, index) => {
-    const card = `
-      <div class="col-md-3">
-         <div class="staff-card position-relative">
-          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete Staff" onclick="deleteStaff(${index})"></i>
-    <i class="fas fa-user-circle text-dark " style="font-size: 40px;"></i> 
-          <h5>${staff.firstName} ${staff.lastName}</h5>
-          <p>${staff.designation}</p>
-          <p>${staff.contactNo}</p>
-          <p>${staff.email}</p>
-          <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
-            <i class="fas fa-edit text-dark" title="Edit Details" onclick="editStaff(${index})"></i>        
-            <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewStaff(${index})">
-            View <i class="fas fa-arrow-right ml-2 text-white"></i>
-            </button>
+  staffContainer.empty(); // Clear existing content
+
+      // Loop through the received data and render each staff card
+      staffData.forEach((staff, index) => {
+        const card = `
+          <div class="col-md-3">
+            <div class="staff-card position-relative">
+              <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete Staff" onclick="deleteStaff(${index})"></i>
+              <i class="fas fa-user-circle text-dark" style="font-size: 40px;"></i>
+              <h5>${staff.firstName} ${staff.lastName}</h5>
+              <p>${staff.designation}</p>
+              <p>${staff.contactNo}</p>
+              <p>${staff.email}</p>
+              <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
+                <i class="fas fa-edit text-dark" title="Edit Details" onclick="editStaff(${index})"></i>        
+                <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewStaff(${index})">
+                  View <i class="fas fa-arrow-right ml-2 text-white"></i>
+                </button>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-    `;
-    staffContainer.append(card);
-  });
+        `;
+        staffContainer.append(card);
+      });
 }
+
 
 function searchStaff() {
   const searchTerm = document.getElementById("search-bar").value.toLowerCase();
