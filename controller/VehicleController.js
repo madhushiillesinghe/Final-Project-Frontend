@@ -94,9 +94,7 @@ $("#search-bar").keyup(async function () {
 
   const filteredVehicle = vehicle.filter(
     (vehicleCard) =>
-      `${vehicleCard.vehicleCode}`
-        .toLowerCase()
-        .includes(searchTerm) ||
+      `${vehicleCard.vehicleCode}`.toLowerCase().includes(searchTerm) ||
       `${vehicleCard.licensePlateNo}`.toLowerCase().includes(searchTerm)
   );
 
@@ -213,7 +211,6 @@ function saveVehicleChanges(index, cardElement, vehicleData) {
         );
       }
       $("#staffId").val(updatedVehicle.staffId).change();
-      
 
       // Close the modal
       const editVehicleModal = bootstrap.Modal.getInstance(
@@ -277,8 +274,8 @@ function saveNewVehicle() {
     remarks: $("#remarks").val(),
     staffId: $("#staffId").val(),
   };
-  console.log($("#staffId").val(),"staff id")
-  console.log(newVehicle,"new vehicle")
+  console.log($("#staffId").val(), "staff id");
+  console.log(newVehicle, "new vehicle");
   addVehicleData(newVehicle, function (success) {
     if (success) {
       fetchAndUpdateData();

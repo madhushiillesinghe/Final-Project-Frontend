@@ -1,14 +1,5 @@
 // Initial Field Data
-let fieldData = [
-  {
-    fieldCode: "F001",
-    fieldName: "Field A",
-    fieldLocation: "40.7128, -74.0060",
-    extentSize: 10.5,
-    fieldImage1: "https://via.placeholder.com/100",
-    fieldImage2: "https://via.placeholder.com/100",
-  },
-];
+
 
 // Load Field Table on Page Ready
 $(document).ready(() => {
