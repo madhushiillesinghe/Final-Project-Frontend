@@ -1,54 +1,48 @@
-// Initial Field Data
-
-
+import {
+  getFieldData,
+  addFieldData,
+  updateField,
+  deleteField,
+} from "../model/FieldModel.js";
 // Load Field Table on Page Ready
 $(document).ready(() => {
-  renderFieldCards();
+  init();
 });
+
+async function init() {
+  try {
+    const fieldData = await getFieldData(); // Wait for the data to be resolved
+    console.log("Fetched field data:", fieldData);
+
+    renderFieldCards(fieldData); // Pass the resolved data to renderStaffCards
+
+    // Event listeners for actions
+    $("#search-bar").on("keyup", handleSearch);
+  } catch (error) {
+    console.error("Error initializing Field data:", error);
+  }
+}
 const fieldContainer = $("#field-container");
 const fieldModal = new bootstrap.Modal($("#editFieldModal"));
 const fieldForm = $("#field-form-section");
-// Function to Load Field Table
-// function loadFieldTable() {
-//   const tbody = $("#field-table-body");
-//   tbody.empty(); // Clear existing rows
-
-//   fieldData.forEach((field) => {
-//     tbody.append(`
-//         <tr>
-//           <td>${field.fieldCode}</td>
-//           <td>${field.fieldName}</td>
-//           <td>${field.fieldLocation}</td>
-//           <td>${field.extentSize}</td>
-//           <<td><img src="${field.fieldImage1}" alt="Field Image 1" style="width: 50px; height: 50px;" /></td>
-//           <td><img src="${field.fieldImage2}" alt="Field Image 2" style="width: 50px; height: 50px;" /></td>
-//           <td class="action-icons">
-//             <i class="fas fa-edit me-3" onclick="editField('${field.fieldCode}')"></i>
-//             <i class="fas fa-trash-alt me-3" onclick="deleteField('${field.fieldCode}')"></i>
-//             <i class="fas fa-eye" onclick="viewField('${field.fieldCode}')"></i>
-//           </td>
-//         </tr>
-//       `);
-//   });
-// }
 
 // Load Field cards
-function renderFieldCards() {
+function renderFieldCards(fieldData) {
   fieldContainer.empty();
   fieldData.forEach((field, index) => {
     const card = `
       <div class="col-md-3">
          <div class="field-card position-relative">
-          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4" title="Delete Field" onclick="deleteField(${index})"></i>
+          <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-4 delete-icon" title="Delete Field" data-index="${index}"></i>
         <img src="/assets/image/field.png" alt="User Icon" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;" />
           <h5>${field.fieldName}</h5>
           <p>code :${field.fieldCode}</p>
           <p> Location:${field.fieldLocation}</p>
           <p>extend size :${field.extentSize}</p>
           <div class="action-buttons d-flex justify-content-center align-items-center gap-4 mt-3">
-            <i class="fas fa-edit text-dark" title="Edit Details" onclick="editfield(${index})"></i>        
-            <button class="btn btn-success btn-sm text-white" title="Get Details" onclick="viewField(${index})">
-            View <i class="fas fa-arrow-right ml-2 text-white"></i>
+            <i class="fas fa-edit text-dark" title="Edit Details" data-index="${index}"></i>        
+            <button class="btn btn-success btn-sm text-white view-btn" title="Get Details" data-index="${index}">
+                View <i class="fas fa-arrow-right ml-2 text-white"></i>
             </button>
           </div>
         </div>
@@ -56,45 +50,133 @@ function renderFieldCards() {
     `;
     fieldContainer.append(card);
   });
+  fieldContainer
+    .off("click", ".delete-icon")
+    .on("click", ".delete-icon", function () {
+      const index = $(this).data("index"); // Get the index from the data attribute
+      const cardElement = $(this).closest(".field-card"); // Find the closest card element
+      console.log(index, "field index in delete field");
+      const fieldCode = fieldData[index].fieldCode; // Retrieve the staff ID
+      console.log(fieldData, "Field Data in Controller");
+      console.log(fieldCode, "Field Code");
+
+      if (confirm("Are you sure you want to delete this Field?")) {
+        deleteField(fieldCode, cardElement, function (success) {
+          if (success) {
+            fetchAndUpdateFieldData(); // Call the fetch function to reload the DOM
+          } else {
+            alert("Failed to update the field. Please try again.");
+          }
+        }); // Pass the staff ID to deleteStaff
+      }
+    });
+
+  // Event handling for edit
+  fieldContainer.off("click", ".fa-edit").on("click", ".fa-edit", function () {
+    const index = $(this).data("index"); // Get the index from the data attribute
+    const cardElement = $(this).closest(".field-card"); // Find the closest card element
+    editfield(fieldData, index, cardElement); // Call the edit handler with the staff index
+  });
+  // Event handling for view
+  fieldContainer
+    .off("click", ".view-btn")
+    .on("click", ".view-btn", function () {
+      const index = $(this).data("index"); // Get the index from the data attribute
+      viewField(fieldData, index); // Call the view handler with the staff index
+    });
 }
 
-function searchField() {
-  const searchTerm = document.getElementById("search-bar").value.toLowerCase();
-  const fieldCards = document.querySelectorAll(".field-card");
+$("#search-bar").keyup(async function () {
+  console.log("Searching for field...");
+  const field = await getFieldData();
+  // Ensure that staff is an array
+  if (!Array.isArray(field)) {
+    console.error("getFieldData() did not return an array.");
+    return; // Exit the function if the data is not an array
+  }
 
-  fieldCards.forEach((card) => {
-    const fieldName = card.querySelector("h5").textContent.toLowerCase();
-    const fieldCode = card.querySelector("p").textContent.toLowerCase();
+  const searchTerm = $("#search-bar").val().toLowerCase();
 
-    if (fieldName.includes(searchTerm) || fieldCode.includes(searchTerm)) {
-      card.style.display = "block"; // Show the card if it matches
+  // Filter staff based on first name, last name, or ID
+  const filteredField = field.filter(
+    (fieldcard) =>
+      `${fieldcard.fieldCode} `.toLowerCase().includes(searchTerm) ||
+      `${fieldcard.fieldNamed}`.toLowerCase().includes(searchTerm)
+  );
+
+  // Render the filtered staff cards
+  renderFieldCards(filteredField);
+});
+// Function to Add a New Field
+$("#addbtn").click(async function () {
+  setFormReadOnly(false);
+  console.log("Clicked add button");
+  const fieldData = await getFieldData(); // Wait for the data to be resolved
+
+  if (!fieldData || fieldData.length === 0) {
+    console.error("field data is empty or undefined!");
+    return; // Early exit if there's an issue with the data
+  }
+
+  // Generate a new ID based on the number of existing staff
+  const newId = `F${String(fieldData.length + 1).padStart(2, "0")}`;
+  console.log("Generated ID:", newId);
+
+  // Reset the form and prepare it for adding new staff
+  $("#editFieldModalLabel").text("Add Field"); // Set modal title
+  resetFormFields();
+  $(".update")
+    .show()
+    .text("Save")
+    .off("click") // Remove any previous click handlers
+    .on("click", saveNewField); // Attach the saveNewStaff handler
+  $("#fieldForm input, #fieldForm select, #fieldForm textarea").prop(
+    "readonly",
+    false
+  );
+
+  // Show the modal
+  const modal = new bootstrap.Modal($("#editFieldModal")[0]); // Pass the DOM element instead of jQuery object
+  modal.show();
+
+  $("#editFieldModal").on("shown.bs.modal", function () {
+    const fieldInput = $("#fieldCode");
+    if (fieldInput.length) {
+      fieldInput.val(newId);
+      console.log("ID successfully set in input field:", fieldInput.val());
     } else {
-      card.style.display = "none"; // Hide the card if it doesn't match
+      console.error("#id input field not found!");
     }
   });
-}
-// Function to Add a New Field
-function addField() {
-  resetFormFields();
-  setFormReadOnly(false);
-  $(".update").show();
-  $("#fieldCode").val(`F${String(fieldData.length + 1).padStart(3, "0")}`);
-  $("#editFieldModalLabel").text("Add Field");
-  $(".update").text("Save").attr("onclick", "saveNewField()");
-  fieldModal.show();
-}
+
+  // Set the staff ID once the modal content is fully rendered
+});
 
 // Function to Save a New Field
 function saveNewField() {
-  const newField = getFieldFormData();
-  fieldData.push(newField);
-  alert("New field added successfully!");
-  renderFieldCards();
-  closeModal();
+  const newField = getFieldFormData(); // Collect the form data
+  console.log("New Field Data:", newField);
+
+  if (!newField.fieldImage1 || !newField.fieldImage2) {
+    alert("Please upload both images before saving.");
+    return;
+  }
+
+  // Call the function to send data to the server
+  addFieldData(newField, function (success) {
+    if (success) {
+      fetchAndUpdateFieldData(); // Update the UI with the latest data
+      alert("Field added successfully!");
+
+      // Close the modal
+      const modal = bootstrap.Modal.getInstance($("#editFieldModal")[0]);
+      modal.hide();
+    }
+  });
 }
 
 // Function to Edit a Field
-function editfield(index) {
+function editfield(fieldData, index, cardElement) {
   setFormReadOnly(false);
   $(".update").show();
 
@@ -102,7 +184,11 @@ function editfield(index) {
   if (field) {
     populateForm(field);
     $("#editFieldModalLabel").text("Edit Field");
-    $(".update").text("Update").attr("onclick", "saveFieldChanges()");
+    $(".update")
+      .text("Update")
+      .on("click", function () {
+        saveFieldChanges(index, cardElement, fieldData);
+      });
     const editModal = new bootstrap.Modal($("#editFieldModal"));
     editModal.show();
   } else {
@@ -111,30 +197,39 @@ function editfield(index) {
 }
 
 // Function to Save Changes to a Field
-function saveFieldChanges() {
+function saveFieldChanges(index, cardElement, field) {
   const updatedField = getFieldFormData();
-  const index = fieldData.findIndex(
-    (f) => f.fieldCode === updatedField.fieldCode
-  );
-  if (index !== -1) {
-    fieldData[index] = updatedField;
-    alert("Field updated successfully!");
-    renderFieldCards();
-  }
-  const modal = bootstrap.Modal.getInstance($("#editFieldModal"));
-  modal.hide();
-}
+  console.log(updatedField.fieldImage1, "field image is");
+  const fieldCode = updatedField.fieldCode;
+  updateField(fieldCode, updatedField, function (success) {
+    if (success) {
+      // Dynamically update the relevant card with the updated data
+      cardElement.find("h5").text(`${updatedField.fieldName}`);
+      cardElement.find("p:contains('ID')").text(`ID: ${updatedStaff.id}`);
+      cardElement
+        .find("p:contains('code ')")
+        .text(`Designation: ${updatedField.fieldCode}`);
+      cardElement
+        .find("p:contains('Location')")
+        .text(`Location: ${updatedField.fieldLocation}`);
+      cardElement
+        .find("p:contains('extend size')")
+        .text(`extend size: ${updatedField.extentSize}`);
+      populateForm(updatedField);
+      alert("Field updated successfully!");
 
-// Function to Delete a Field
-function deleteField(index) {
-  if (confirm("Are you sure you want to delete this field?")) {
-    fieldData.splice(index, 1);
-    renderFieldCards();
-  }
+      // Close the modal
+      const modal = bootstrap.Modal.getInstance($("#editFieldModal")[0]);
+      modal.hide();
+      fetchAndUpdateFieldData(); // Call the fetch function to reload the DOM
+    } else {
+      alert("Failed to update the field. Please try again.");
+    }
+  });
 }
 
 // Function to View a Field
-function viewField(index) {
+function viewField(fieldData, index) {
   const field = fieldData[index];
   if (field) {
     populateForm(field);
@@ -154,20 +249,22 @@ function populateForm(field) {
   $("#fieldImage1").val("");
   $("#fieldImage2").val("");
 
-  // Set Image Previews
-  $("#fieldImage1Preview").attr("src", field.fieldImage1);
-  $("#fieldImage2Preview").attr("src", field.fieldImage2);
-}
-// Helper Function: Set Form Read-Only State
-function setFormReadOnly(isReadOnly) {
-  const formFields = $("#field-form input, #field-form select");
-  formFields.each(function () {
-    if (isReadOnly) {
-      $(this).attr("readonly", true).attr("disabled", true);
-    } else {
-      $(this).removeAttr("readonly").removeAttr("disabled");
-    }
-  });
+  // Set image previews using the database image URLs
+  if (field.fieldImage1) {
+    $("#fieldImage1Preview").attr("src", field.fieldImage1).show(); // Show the preview image
+  } else {
+    $("#fieldImage1Preview").attr("src", "").hide(); // Hide preview if no image
+  }
+
+  if (field.fieldImage2) {
+    $("#fieldImage2Preview").attr("src", field.fieldImage2).show(); // Show the preview image
+  } else {
+    $("#fieldImage2Preview").attr("src", "").hide(); // Hide preview if no image
+  }
+
+  // Optionally, you can store the URL in a hidden field for further use
+  $("#fieldImage1Hidden").val(field.fieldImage1 || "");
+  $("#fieldImage2Hidden").val(field.fieldImage2 || "");
 }
 
 // Helper Function: Reset Form Fields
@@ -197,20 +294,19 @@ $(document).on("change", "#fieldImage2", function () {
   reader.readAsDataURL(this.files[0]);
 });
 function getFieldFormData() {
-  const image1 = $("#fieldImage1").prop("files")[0];
-  const image2 = $("#fieldImage2").prop("files")[0];
+  const image1 = $("#fieldImage1").prop("files")[0]; // Get the first file for Image 1
+  const image2 = $("#fieldImage2").prop("files")[0]; // Get the first file for Image 2
+
+  console.log("Image 1:", image1);
+  console.log("Image 2:", image2);
 
   return {
-    fieldCode: $("#fieldCode").val(),
-    fieldName: $("#fieldName").val(),
-    fieldLocation: $("#fieldLocation").val(),
-    extentSize: parseFloat($("#extentSize").val()),
-    fieldImage1: image1
-      ? URL.createObjectURL(image1)
-      : $("#fieldImage1Preview").attr("src"),
-    fieldImage2: image2
-      ? URL.createObjectURL(image2)
-      : $("#fieldImage2Preview").attr("src"),
+    fieldCode: $("#fieldCode").val(), // Read input value for fieldCode
+    fieldName: $("#fieldName").val(), // Read input value for fieldName
+    fieldLocation: $("#fieldLocation").val(), // Read input value for fieldLocation
+    extentSize: parseFloat($("#extentSize").val()), // Parse extentSize as a float
+    fieldImage1: image1, // Pass the file object
+    fieldImage2: image2, // Pass the file object
   };
 }
 document.addEventListener("DOMContentLoaded", function () {
@@ -228,3 +324,35 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error loading sidebar:", error));
 });
+function fetchAndUpdateFieldData() {
+  const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
+
+  $.ajax({
+    url: "http://localhost:8080/agriculture/api/v1/fields/allfields", // Backend API URL
+    type: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
+    success: function (fieldData) {
+      // Call the renderStaffCards function to refresh the DOM with the latest data
+      renderFieldCards(fieldData);
+
+      console.log("Field data refreshed successfully.");
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching field data:", error);
+    },
+  });
+}
+function setFormReadOnly(isReadOnly) {
+  const formFields = $("#field-form input, #field-form select");
+  formFields.each(function () {
+    if (isReadOnly) {
+      $(this).attr("readonly", true).attr("disabled", true);
+    } else {
+      $(this).removeAttr("readonly").removeAttr("disabled");
+    }
+  });
+}

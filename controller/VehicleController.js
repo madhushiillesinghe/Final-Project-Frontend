@@ -108,6 +108,7 @@ function editVehicle(vehicleData, index, cardElement) {
   const vehicle = vehicleData[index];
 
   if (vehicle) {
+    console.log(vehicle,"vehicle data is ")
     // Populate the form with the vehicle data
     $("#vehicleCode").val(vehicle.vehicleCode);
     $("#licensePlateNo").val(vehicle.licensePlateNo);
@@ -226,6 +227,8 @@ function saveVehicleChanges(index, cardElement, vehicleData) {
 
 $("#addbtn").click(async function () {
   resetFormFields();
+  setFormReadOnly(false)
+
   const vehicleData = await getVehicleData();
 
   if (!vehicleData || vehicleData.length === 0) {
@@ -279,7 +282,6 @@ function saveNewVehicle() {
   addVehicleData(newVehicle, function (success) {
     if (success) {
       fetchAndUpdateData();
-      alert("Vehicle added successfully!");
       const editVehicleModal = bootstrap.Modal.getInstance(
         $("#editVehicleModal")
       );

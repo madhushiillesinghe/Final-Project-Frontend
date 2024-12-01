@@ -38,6 +38,10 @@ export function addVehicleData(newVehicle, callback) {
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(newVehicle), // Send the form data as JSON
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
     success: function (response) {
       console.log("Vehicleadded successfully:", response);
       alert("Vehicle added successfully!");
@@ -51,11 +55,17 @@ export function addVehicleData(newVehicle, callback) {
   });
 }
 export function updateVehicleData(vehicleCode, updatedVehicleData, callback) {
+  const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
+
   $.ajax({
     url: `http://localhost:8080/agriculture/api/v1/vehicles/${vehicleCode}`, // Endpoint URL
     type: "PUT", // HTTP method
     contentType: "application/json", // Content type for JSON
     data: JSON.stringify(updatedVehicleData), // Convert data to JSON string
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
     success: function () {
       alert("Vehicle updated successfully!");
       callback(true);
@@ -85,7 +95,8 @@ export function deleteVehicle(vehicleCode, cardElement, callback) {
     type: "DELETE",
     contentType: "application/json",
     headers: {
-      Authorization: `Bearer ${token}`, // Include the JWT token (use backticks for template literals)
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
     },
     success: function (data) {
       cardElement.remove();

@@ -71,6 +71,10 @@ export function addStaffData(newStaff, callback) {
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(newStaff), // Send the form data as JSON
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
     success: function (response) {
       console.log("Staff added successfully:", response);
       // After successful submission, update the UI
@@ -85,11 +89,17 @@ export function addStaffData(newStaff, callback) {
   });
 }
 export function updateStaff(staffId, updatedStaffData, callback) {
+  const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
+
   $.ajax({
     url: `http://localhost:8080/agriculture/api/v1/staff/${staffId}`, // Endpoint URL
     type: "PUT", // HTTP method
     contentType: "application/json", // Content type for JSON
     data: JSON.stringify(updatedStaffData), // Convert data to JSON string
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
     success: function () {
       alert("Staff member updated successfully!");
       callback(true);

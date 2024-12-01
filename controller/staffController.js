@@ -19,6 +19,7 @@ async function init() {
 }
 
 $("#addbtn").click(async function () {
+  setFormReadOnly(false)
   console.log("Clicked add button");
   const staffData = await getStaffData(); // Wait for the data to be resolved
 
@@ -80,6 +81,7 @@ async function saveNewStaff() {
 
 // Handle editing a staff member
 function handleEdit(staffData, index, cardElement) {
+  setFormReadOnly(false)
   const staff = staffData[index];
   console.log(staff, "staff");
   populateFormFields(staff); // Populate fields with data
@@ -341,5 +343,15 @@ function fetchAndUpdateStaffData() {
     error: function (xhr, status, error) {
       console.error("Error fetching staff data:", error);
     },
+  });
+}
+function setFormReadOnly(isReadOnly) {
+  const formStaff = $("#staff-form input, #staff-form select");
+  formStaff.each(function () {
+    if (isReadOnly) {
+      $(this).attr("readonly", true).attr("disabled", true);
+    } else {
+      $(this).removeAttr("readonly").removeAttr("disabled");
+    }
   });
 }
