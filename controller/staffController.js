@@ -60,7 +60,6 @@ $("#addbtn").click(async function () {
   });
 });
 
-
 async function saveNewStaff() {
   const newStaff = collectFormData(); // Collect data from the form
   const staffData = await getStaffData(); // Fetch the current staff data
@@ -69,7 +68,7 @@ async function saveNewStaff() {
   // Send new staff data to the backend
   addStaffData(newStaff, function (success) {
     if (success) {
-      fetchAndUpdateStaffData()
+      fetchAndUpdateStaffData();
       alert("Staff member added successfully!");
 
       // Close the modal
@@ -93,7 +92,7 @@ function handleEdit(staffData, index, cardElement) {
     .data("index", index) // Store the index using data-attribute
     .off("click") // Unbind previous click event
     .on("click", function () {
-      saveChanges(index,cardElement,staffData);
+      saveChanges(index, cardElement, staffData);
     }); // Bind the saveChanges function
   console.log(index, "index is");
   // Make form fields editable
@@ -113,7 +112,7 @@ function handleEdit(staffData, index, cardElement) {
     }
   });
 }
-function saveChanges(index, cardElement,staff) {
+function saveChanges(index, cardElement, staff) {
   const updatedStaff = collectFormData(); // Collect the form data
   const staffId = updatedStaff.id; // Ensure the ID is included in the updated data
 
@@ -121,12 +120,20 @@ function saveChanges(index, cardElement,staff) {
   updateStaff(staffId, updatedStaff, function (success) {
     if (success) {
       // Dynamically update the relevant card with the updated data
-      cardElement.find("h5").text(`${updatedStaff.name.firstName} ${updatedStaff.name.lastName}`);
+      cardElement
+        .find("h5")
+        .text(`${updatedStaff.name.firstName} ${updatedStaff.name.lastName}`);
       cardElement.find("p:contains('ID')").text(`ID: ${updatedStaff.id}`);
-      cardElement.find("p:contains('Designation')").text(`Designation: ${updatedStaff.designation}`);
-      cardElement.find("p:contains('Contact')").text(`Contact: ${updatedStaff.contactNo}`);
-      cardElement.find("p:contains('Email')").text(`Email: ${updatedStaff.email}`);
-      populateFormFields(updatedStaff)
+      cardElement
+        .find("p:contains('Designation')")
+        .text(`Designation: ${updatedStaff.designation}`);
+      cardElement
+        .find("p:contains('Contact')")
+        .text(`Contact: ${updatedStaff.contactNo}`);
+      cardElement
+        .find("p:contains('Email')")
+        .text(`Email: ${updatedStaff.email}`);
+      populateFormFields(updatedStaff);
       alert("Staff member updated successfully!");
 
       // Close the modal
@@ -161,7 +168,7 @@ function handleView(staffData, index) {
 // Handle search functionality for staff members
 $("#search-bar").keyup(async function () {
   console.log("Searching for staff...");
-  const staff =await getStaffData();
+  const staff = await getStaffData();
   // Ensure that staff is an array
   if (!Array.isArray(staff)) {
     console.error("getStaffData() did not return an array.");
@@ -229,7 +236,7 @@ function renderStaffCards(staffData) {
           } else {
             alert("Failed to update the staff member. Please try again.");
           }
-      }); // Pass the staff ID to deleteStaff
+        }); // Pass the staff ID to deleteStaff
       }
     });
 
@@ -333,5 +340,6 @@ function fetchAndUpdateStaffData() {
     },
     error: function (xhr, status, error) {
       console.error("Error fetching staff data:", error);
-    }
-});}
+    },
+  });
+}

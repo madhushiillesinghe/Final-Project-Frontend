@@ -63,47 +63,45 @@ export function getStaffData() {
   });
   // return staffData;
 }
-export function addStaffData(newStaff,callback) {
+export function addStaffData(newStaff, callback) {
   const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
 
   $.ajax({
-    url: 'http://localhost:8080/agriculture/api/v1/staff', // Replace with your actual backend URL
-    type: 'POST',
-    contentType: 'application/json',
+    url: "http://localhost:8080/agriculture/api/v1/staff", // Replace with your actual backend URL
+    type: "POST",
+    contentType: "application/json",
     data: JSON.stringify(newStaff), // Send the form data as JSON
     success: function (response) {
-      console.log('Staff added successfully:', response);
+      console.log("Staff added successfully:", response);
       // After successful submission, update the UI
       alert("Staff member added successfully!");
-      callback(true)
-
-
+      callback(true);
     },
     error: function (xhr, status, error) {
-      callback(true)
+      callback(true);
       console.error("Error adding staff:", error);
       alert("Error adding staff. Please try again.");
-    }
+    },
   });
 }
 export function updateStaff(staffId, updatedStaffData, callback) {
   $.ajax({
     url: `http://localhost:8080/agriculture/api/v1/staff/${staffId}`, // Endpoint URL
-    type: 'PUT',             // HTTP method
-    contentType: 'application/json', // Content type for JSON
+    type: "PUT", // HTTP method
+    contentType: "application/json", // Content type for JSON
     data: JSON.stringify(updatedStaffData), // Convert data to JSON string
     success: function () {
       alert("Staff member updated successfully!");
-      callback(true)
+      callback(true);
     },
     error: function (xhr) {
-      callback(false)
+      callback(false);
       console.error("Error updating staff:", xhr.responseText);
     },
   });
 }
 
-export function deleteStaff(staffId, cardElement,callback) {
+export function deleteStaff(staffId, cardElement, callback) {
   const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
 
   if (!token) {
@@ -125,11 +123,11 @@ export function deleteStaff(staffId, cardElement,callback) {
     },
     success: function (data) {
       cardElement.remove();
-      callback(true)
+      callback(true);
       alert("Staff member deleted successfully.");
     },
     error: function (xhr, status, error) {
-      callback(false)
+      callback(false);
       console.error("There was an error with the AJAX request:", error);
       alert("An error occurred while deleting the staff member.");
     },

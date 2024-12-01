@@ -93,28 +93,33 @@
                 </div>
                 <div class="mb-3">
                   <label for="fuelType" class="form-label">Fuel Type</label>
-                  <select class="form-select" id="fuelType">
+                  <select id="fuelType" class="form-select">
                     <option value="PETROL">PETROL</option>
                     <option value="DIESEL">DIESEL</option>
                     <option value="ELECTRIC">ELECTRIC</option>
                   </select>
                 </div>
+
                 <div class="mb-3">
                   <label for="status" class="form-label">Status</label>
-                  <select class="form-select" id="status">
+                  <select id="status" class="form-select">
                     <option value="ACTIVE">ACTIVE</option>
                     <option value="INACTIVE">INACTIVE</option>
                   </select>
                 </div>
+
                 <div class="mb-3">
                   <label for="remarks" class="form-label">Remarks</label>
                   <textarea class="form-control" id="remarks"></textarea>
                 </div>
                 <div class="mb-3">
-                  <label for="StaffId" class="form-label"
+                  <label for="staffId" class="form-label"
                     >Assigned Staff ID</label
                   >
-                  <input type="text" class="form-control" id="StaffId" />
+                  <select id="staffId" class="form-select" >
+                    <option value="S03">S03</option>
+                    <option value="S02">S02</option>
+                  </select>
                 </div>
               </form>
             </div>
@@ -142,6 +147,7 @@
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/vehicle.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script type="module" src="../controller/VehicleController.js"></script>
   </body>
 </html>
