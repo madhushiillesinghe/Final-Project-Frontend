@@ -69,12 +69,7 @@ async function saveNewStaff() {
   // Send new staff data to the backend
   addStaffData(newStaff, function (success) {
     if (success) {
-      const staffContainer = $("#staff-container");
-      console.log(staffData,"asy staff data")
-      createCard(newStaff,staffContainer) // Get the updated staff data and render cards
-       // Append each card to the container
-
-      // Show success message
+      fetchAndUpdateStaffData()
       alert("Staff member added successfully!");
 
       // Close the modal
@@ -83,29 +78,7 @@ async function saveNewStaff() {
     }
   });
 }
- function createCard(staff,staffContainer){
-  const card = `
-  <div class="col-md-3 id="staff-card-${staff.id}">
-    <div class="staff-card position-relative p-3 border rounded shadow-sm">
-      <i class="fas fa-trash text-danger position-absolute top-0 end-0 m-2 delete-icon" 
-       title="Delete Staff" data-index="${index}"></i>
-      <i class="fas fa-user-circle text-dark mb-2" style="font-size: 40px;"></i>
-      <h5>${staff.name.firstName} ${staff.name.lastName}</h5>
-      <p>ID: ${staff.id}</p>
-      <p>Designation: ${staff.designation}</p>
-      <p>Contact: ${staff.contactNo}</p>
-      <p>Email: ${staff.email}</p>
-      <div class="action-buttons d-flex justify-content-center align-items-center gap-3 mt-3">
-        <i class="fas fa-edit text-primary" title="Edit Details" data-index="${index}"></i>        
-        <button class="btn btn-success btn-sm text-white view-btn" data-index="${index}">
-          View <i class="fas fa-arrow-right ml-2 text-white"></i>
-        </button>
-      </div>
-    </div>
-  </div>
-`;
-staffContainer.append(createCard.card);
-}
+
 // Handle editing a staff member
 function handleEdit(staffData, index, cardElement) {
   const staff = staffData[index];
@@ -153,11 +126,13 @@ function saveChanges(index, cardElement,staff) {
       cardElement.find("p:contains('Designation')").text(`Designation: ${updatedStaff.designation}`);
       cardElement.find("p:contains('Contact')").text(`Contact: ${updatedStaff.contactNo}`);
       cardElement.find("p:contains('Email')").text(`Email: ${updatedStaff.email}`);
+      populateFormFields(updatedStaff)
       alert("Staff member updated successfully!");
 
       // Close the modal
       const modal = bootstrap.Modal.getInstance($("#editStaffModal")[0]);
       modal.hide();
+      fetchAndUpdateStaffData(); // Call the fetch function to reload the DOM
     } else {
       alert("Failed to update the staff member. Please try again.");
     }
@@ -248,7 +223,13 @@ function renderStaffCards(staffData) {
       console.log(staffId, "Staff ID");
 
       if (confirm("Are you sure you want to delete this staff member?")) {
-        deleteStaff(staffId, cardElement); // Pass the staff ID to deleteStaff
+        deleteStaff(staffId, cardElement, function (success) {
+          if (success) {
+            fetchAndUpdateStaffData(); // Call the fetch function to reload the DOM
+          } else {
+            alert("Failed to update the staff member. Please try again.");
+          }
+      }); // Pass the staff ID to deleteStaff
       }
     });
 
@@ -333,3 +314,24 @@ document.addEventListener("DOMContentLoaded", function () {
     })
     .catch((error) => console.error("Error loading sidebar:", error));
 });
+function fetchAndUpdateStaffData() {
+  const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
+
+  $.ajax({
+    url: "http://localhost:8080/agriculture/api/v1/staff/allstaff", // Backend API URL
+    type: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
+    success: function (staffData) {
+      // Call the renderStaffCards function to refresh the DOM with the latest data
+      renderStaffCards(staffData);
+
+      console.log("Staff data refreshed successfully.");
+    },
+    error: function (xhr, status, error) {
+      console.error("Error fetching staff data:", error);
+    }
+});}

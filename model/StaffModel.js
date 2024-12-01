@@ -103,9 +103,7 @@ export function updateStaff(staffId, updatedStaffData, callback) {
   });
 }
 
-
-
-export function deleteStaff(staffId, cardElement) {
+export function deleteStaff(staffId, cardElement,callback) {
   const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
 
   if (!token) {
@@ -127,9 +125,11 @@ export function deleteStaff(staffId, cardElement) {
     },
     success: function (data) {
       cardElement.remove();
+      callback(true)
       alert("Staff member deleted successfully.");
     },
     error: function (xhr, status, error) {
+      callback(false)
       console.error("There was an error with the AJAX request:", error);
       alert("An error occurred while deleting the staff member.");
     },
