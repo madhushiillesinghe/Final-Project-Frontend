@@ -110,3 +110,30 @@ export function deleteVehicle(vehicleCode, cardElement, callback) {
     },
   });
 }
+export function getStaffData() {
+  const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
+
+  return $.ajax({
+    url: "http://localhost:8080/agriculture/api/v1/staff/allstaff", // Backend API URL
+    type: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
+    success: function (data) {
+      const staffSelector = $("#staffId"); // Select the dropdown
+      staffSelector.empty();
+      console.log(data,"Staff data")
+      data.forEach((staff) => {
+        // Append each field name as an <option>
+        staffSelector.append(`<option value="${staff.id}">${staff.name.firstName}</option>`);
+      });
+      console.log("Staff data:", data);
+    },
+    error: function (xhr, status, error) {
+      console.error("There was an error with the AJAX request:", error);
+    },
+  });
+  // return staffData;
+}

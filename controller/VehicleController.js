@@ -3,6 +3,7 @@ import {
   addVehicleData,
   updateVehicleData,
   deleteVehicle,
+  getStaffData,
 } from "../model/VehicleModel.js";
 async function init() {
   try {
@@ -18,6 +19,7 @@ async function init() {
   }
 }
 $(document).ready(() => {
+  getStaffData()
   init();
 });
 const vehicleContainer = $("#vehicle-container");

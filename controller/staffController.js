@@ -3,9 +3,11 @@ import {
   addStaffData,
   updateStaff,
   deleteStaff,
+  getFieldData,
 } from "../model/StaffModel.js";
 async function init() {
   try {
+    getFieldData()
     const staffData = await getStaffData(); // Wait for the data to be resolved
     console.log("Fetched staff data:", staffData);
 

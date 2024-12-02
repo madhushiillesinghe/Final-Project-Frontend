@@ -3,10 +3,14 @@ import {
   addEquipmentData,
   updateEquipmentData,
   deleteEquipment,
+  getFieldData,
+  getStaffData,
 } from "../model/EquipmentModel.js";
 
 // Load equipment table on page ready
 $(document).ready(() => {
+  getFieldData();
+  getStaffData();
   init();
 });
 async function init() {
@@ -121,7 +125,6 @@ function editEquipment(equipmentData, index, cardElement) {
 function saveEquipmentChanges(index, cardElement, equipmentData) {
   const updatedEquipment = getFormData();
   const equipmentCode = updatedEquipment.id; // Ensure the ID is included in the updated data
-
   updateEquipmentData(equipmentCode, updatedEquipment, function (success) {
     if (success) {
       cardElement.find("h5").text(`${updatedEquipment.name}`);

@@ -149,3 +149,30 @@ export function deleteCrop(cropCode, cardElement, callback) {
     },
   });
 }
+export function getFieldData() {
+  const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
+
+  return $.ajax({
+    url: "http://localhost:8080/agriculture/api/v1/fields/allfields", // Backend API URL
+    type: "GET",
+    contentType: "application/json",
+    headers: {
+      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
+      // Set content type to JSON
+    },
+    success: function (data) {
+      const fieldSelector = $("#fieldSelector"); // Select the dropdown
+      fieldSelector.empty();
+      console.log(data,"field data")
+      data.forEach((field) => {
+        // Append each field name as an <option>
+        fieldSelector.append(`<option value="${field.fieldCode}">${field.fieldName}</option>`);
+      });
+      console.log("Field data:", data);
+    },
+    error: function (xhr, status, error) {
+      console.error("There was an error with the AJAX request:", error);
+    },
+  });
+  // return staffData;
+}

@@ -3,8 +3,10 @@ import {
   addCropData,
   updateCrop,
   deleteCrop,
+  getFieldData,
 } from "../model/CropModel.js";
 $(document).ready(() => {
+  getFieldData();
   init();
 });
 async function init() {

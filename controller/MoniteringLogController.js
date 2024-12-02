@@ -3,9 +3,15 @@ import {
   addMoniteringLogData,
   updateMoniteringLog,
   deleteMoniteringLog,
+  getCropData,
+  getFieldData,
+  getStaffData,
 } from "../model/MoniteringLogModel.js";
 
 $(document).ready(() => {
+  getCropData();
+  getFieldData();
+  getStaffData();
   init();
 });
 async function init() {
