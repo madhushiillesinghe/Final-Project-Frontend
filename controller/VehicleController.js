@@ -14,7 +14,7 @@ async function init() {
     // Event listeners for actions
     $("#search-bar").on("keyup", searchVehicle());
   } catch (error) {
-    console.error("Error initializing staff data:", error);
+    console.error("Error initializing vehicle data:", error);
   }
 }
 $(document).ready(() => {
@@ -313,7 +313,7 @@ function viewVehicle(vehicleData, index) {
         `<option value="${vehicle.status}">${vehicle.status}</option>`
       );
     }
-    $("#staffId").val(vehicle.staffId).change();
+    $("#status").val(vehicle.status).change();
     if (!$("#staffId option[value='" + vehicle.staffId + "']").length) {
       $("#staffId").append(
         `<option value="${vehicle.staffId}">${vehicle.staffId}</option>`
