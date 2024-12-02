@@ -205,7 +205,6 @@ function saveFieldChanges(index, cardElement, field) {
     if (success) {
       // Dynamically update the relevant card with the updated data
       cardElement.find("h5").text(`${updatedField.fieldName}`);
-      cardElement.find("p:contains('ID')").text(`ID: ${updatedStaff.id}`);
       cardElement
         .find("p:contains('code ')")
         .text(`Designation: ${updatedField.fieldCode}`);
