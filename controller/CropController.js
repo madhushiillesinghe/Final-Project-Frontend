@@ -262,7 +262,6 @@ function setFormReadOnly(isReadOnly) {
     $(this).prop("readonly", isReadOnly).prop("disabled", isReadOnly);
   });
 }
-
 // Helper Function: Close Modal
 function closeModal() {
   $("#editCropModal").modal("hide");

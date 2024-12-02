@@ -31,7 +31,7 @@
       </div>
 
       <!-- Add Button -->
-      <button class="btn btn-success mb-4 add-button">
+      <button class="btn btn-success mb-4 add-button" id="addbtn">
         <i class="fa fa-plus"></i> Add Log
       </button>
 
@@ -101,14 +101,19 @@
                   id="observedImage"
                   accept="image/*"
                 />
-                <small class="form-text text-muted"
-                  >Upload an image related to the observation</small
-                >
+                <img
+                    id="observedImage"
+                    src=""
+                    alt="observedImagePreview"
+                    style="max-width: 100px; margin-top: 10px"
+                  />
               </div>
               <!-- Crop Code Dropdown -->
               <div class="mb-3">
                 <label for="cropCode" class="form-label">Crop Code</label>
                 <select id="cropCode" class="form-control">
+                  <option value="C003">C003</option>
+                  <option value="C004">C004</option>
                   <!-- Dynamic options will be populated here -->
                 </select>
               </div>
@@ -117,6 +122,8 @@
               <div class="mb-3">
                 <label for="fieldCode" class="form-label">Field Code</label>
                 <select id="fieldCode" class="form-control">
+                  <option value="F04">F04</option>
+                  <option value="F05">F05</option>
                   <!-- Dynamic options will be populated here -->
                 </select>
               </div>
@@ -125,6 +132,8 @@
               <div class="mb-3">
                 <label for="staffCode" class="form-label">Staff Code</label>
                 <select id="staffCode" class="form-control">
+                  <option value="S03">S03</option>
+                  <option value="S02">S02</option>
                   <!-- Dynamic options will be populated here -->
                 </select>
               </div>
@@ -149,6 +158,7 @@
     <!-- Bootstrap JS and jQuery -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="/assets/js/moniteringlog.js"></script>
-  </body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+    <script type="module" src="/controller/MoniteringLogController.js"></script>  </body>  </body>
 </html>
