@@ -57,7 +57,7 @@ document.querySelector(".sign-up-form").addEventListener("submit", (e) => {
       const token = response.token; // Assuming your backend returns a JWT token
       localStorage.setItem("jwtToken", token); // Store token in localStorage
       alert("Sign up successful!");
-      window.location.href = "/pages/staff.html"; // Redirect to the dashboard
+      window.location.href = "/pages/dashboard.html"; // Redirect to the dashboard
     },
     error: function (xhr) {
       console.error("Sign up failed:", xhr.responseText);
@@ -90,7 +90,7 @@ document.querySelector(".sign-in-form").addEventListener("submit", (e) => {
       const token = response.token; // Assuming your backend returns a JWT token
       localStorage.setItem("jwtToken", token); // Store token in localStorage
       alert("Sign in successful!");
-      window.location.href = "/pages/staff.html"; // Redirect to the dashboard
+      window.location.href = "/pages/dashboard.html"; // Redirect to the dashboard
     },
     error: function (xhr) {
       console.error("Sign in failed:", xhr.responseText);

@@ -230,10 +230,9 @@ function populateForm(crop) {
   $("#cropImagePreview").attr("src", crop.cropImage);
 
   if (crop.cropImage) {
-     
-      $("#cropImagePreview")
-        .attr("src", `data:image/jpeg;base64,${crop.cropImage}`)
-        .show();
+    $("#cropImagePreview")
+      .attr("src", `data:image/jpeg;base64,${crop.cropImage}`)
+      .show();
   } else {
     $("#cropImagePreview").attr("src", "").hide(); // Hide preview if no image
   }

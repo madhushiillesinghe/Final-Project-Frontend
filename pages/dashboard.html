@@ -3,10 +3,88 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agriculture Dashboard</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="../assets/css/dashboard.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
   </head>
   <body>
+    <div class="container">
+      <div class="topbar">
+        <div class="logo">
+          <h2>GREEN SHADOW</h2>
+        </div>
+        <div class="search">
+          <input type="text" id="search" placeholder="search here...." />
+          <label for="search"> <i class="fas fa-search search-icon"></i></label>
+        </div>
+        <i class="fas fa-bell notification-icon"></i>
+        <div class="user">
+          <img src="../assets/image/user.png" alt="" />
+        </div>
+      </div>
+
+      <div class="main">
+        <div class="cards">
+          <div class="card">
+            <div class="card-content">
+              <div class="number">100</div>
+              <div class="card-name">Employee</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-user-graduate"></i>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-content">
+              <div class="number">10+</div>
+              <div class="card-name">Vehicles</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-truck vehicle-icon"></i>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="number">$4500</div>
+              <div class="card-name">Earning</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-dollar-sign economy-icon"></i>
+              <!-- Dollar Icon -->
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-content">
+              <div class="number">50+</div>
+              <div class="card-name">Crops</div>
+            </div>
+            <div class="icon-box">
+              <i class="fas fa-seedling field-icon"></i>
+              <!-- Seedling Icon -->
+              <!-- Crop Icon -->
+            </div>
+          </div>
+        </div>
+        <div class="charts">
+          <div class="chart">
+            <h2>Earnnings (past 6 months)</h2>
+            <canvas id="lineChart"></canvas>
+          </div>
+          <div class="chart" id="doughnut-chart">
+            <h2>Employees</h2>
+            <canvas id="doughnut"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="../controller/DashboardController.js"></script>
+    <script src="../controller/chart1.js"></script>
+    <script src="../controller/chart2.js"></script>
   </body>
 </html>
