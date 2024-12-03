@@ -108,15 +108,6 @@
                     style="max-width: 100px; margin-top: 10px"
                   />
               </div>
-              <!-- Crop Code Dropdown -->
-              <div class="mb-3">
-                <label for="cropCode" class="form-label">Crop </label>
-                <select id="cropCode" class="form-control">
-                 
-                  <!-- Dynamic options will be populated here -->
-                </select>
-              </div>
-
               <!-- Field Code Dropdown -->
               <div class="mb-3">
                 <label for="fieldCode" class="form-label">Field </label>
@@ -124,6 +115,33 @@
                  
                 </select>
               </div>
+              <!-- Crop Code Dropdown -->
+               <div>
+              <div class="mb-3">
+                <label for="cropCode" class="form-label">Crop </label>
+                <select id="cropCode" class="form-control">
+                 
+                  <!-- Dynamic options will be populated here -->
+                </select>
+                <button class="btn btn-primary mt-2" id="addFieldBtn">
+                  Add Crop
+                </button>
+                <div>
+                  <table class="table table-striped table-hover mt-3">
+                    <thead>
+                      <tr>
+                        <th>Crop Code</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="log-table-body-crop">
+                      <!-- Rows will be dynamically added here -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              
 
               <!-- Staff Code Dropdown -->
               <div class="mb-3">
@@ -131,7 +149,24 @@
                 <select id="staffCode" class="form-control">
                  
                 </select>
+                <button class="btn btn-primary mt-2" id="addStaffBtn">
+                  Add Staff
+                </button>
+                <div>
+                  <table class="table table-striped table-hover mt-3">
+                    <thead>
+                      <tr>
+                        <th>Staff Id</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody id="log-table-body-staff">
+                      <!-- Rows will be dynamically added here -->
+                    </tbody>
+                  </table>
+                </div>
               </div>
+               </div>
             </form>
           </div>
           <div class="modal-footer">

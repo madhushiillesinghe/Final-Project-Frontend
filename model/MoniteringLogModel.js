@@ -78,43 +78,75 @@ export function addMoniteringLogData(newMoniteringLog, callback) {
   });
 }
 
-export function updateMoniteringLog(logCode, updatedFieldData, callback) {
+export function updateMonitoringLog(
+  logCode,
+  updatedFieldData,
+  crops,
+  callback
+) {
+  console.log(crops, "crops");
   const token = localStorage.getItem("jwtToken");
-
   if (!token) {
     alert("Authentication token is missing. Please log in again.");
     return;
   }
 
-  // Create a FormData object to handle multipart/form-data
-  const formData = new FormData();
-  formData.append("logCode", updatedFieldData.logCode);
-  formData.append("logDate", updatedFieldData.logDate);
-  formData.append("observation", updatedFieldData.observation); // Send JSON string
-  formData.append("fieldCode", updatedFieldData.fieldCode);
-  formData.append("observedImage", updatedFieldData.observedImage);
-
-  console.log("FormData Entries:");
-  for (let [key, value] of formData.entries()) {
-    console.log(key, value); // Log all form data to debug
+  // Validate the crops parameter
+  if (!Array.isArray(crops)) {
+    console.error("The 'crops' parameter is not an array:", crops);
+    alert("Invalid crops data. Please try again.");
+    callback(false);
+    return;
   }
 
+  // Create a FormData object to handle multipart/form-data
+  const formData = new FormData();
+
+  // Append request parts
+  formData.append("logCode", updatedFieldData.logCode);
+  formData.append("logDate", updatedFieldData.logDate);
+  formData.append("observation", updatedFieldData.observation);
+  formData.append("fieldCode", updatedFieldData.fieldCode);
+
+  // Append the observed image, if provided
+  if (updatedFieldData.observedImage) {
+    formData.append("observedImage", updatedFieldData.observedImage);
+  }
+
+  // Construct the URL with query parameters for crops
+  const queryParams = crops
+    .map((crop) => `crops=${encodeURIComponent(crop)}`)
+    .join("&");
+  console.log(queryParams, "crop id");
+  const url = `http://localhost:8080/agriculture/api/v1/logcrop/${logCode}?${queryParams}`;
+
+  // Debugging: Log FormData entries
+  console.log("FormData Entries:");
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
+
+  // Send the AJAX request
   $.ajax({
-    url: `http://localhost:8080/agriculture/api/v1/logs/${logCode}`, // Endpoint URL
+    url: url, // Endpoint with query parameters for crops
     type: "PUT", // HTTP method
     contentType: false, // Let jQuery handle the content type
-    processData: false, // Ensure FormData is not converted into a query string
-    data: formData,
+    processData: false, // Prevent jQuery from transforming the FormData object
+    data: formData, // FormData payload
     headers: {
-      Authorization: `Bearer ${token}`, // Pass the token in Authorization header
+      Authorization: `Bearer ${token}`, // Include JWT token in Authorization header
     },
-    success: function () {
-      alert("Monitering Log updated successfully!");
+    success: function (response) {
+      alert("Monitoring Log updated successfully!");
       callback(true);
     },
-    error: function (xhr) {
+    error: function (xhr, status, error) {
       callback(false);
-      console.error("Error updating Monitering log:", xhr.responseText);
+      console.error(
+        `Error updating Monitoring Log (Status: ${status}):`,
+        error
+      );
+      console.error("Response:", xhr.responseText);
     },
   });
 }
@@ -234,6 +266,77 @@ export function getCropData() {
     },
     error: function (xhr, status, error) {
       console.error("There was an error with the AJAX request:", error);
+    },
+  });
+}
+export function updateMonitoringLogStaff(
+  logCode,
+  updatedFieldData,
+  staff,
+  callback
+) {
+  const token = localStorage.getItem("jwtToken");
+  if (!token) {
+    alert("Authentication token is missing. Please log in again.");
+    return;
+  }
+
+  // Validate the crops parameter
+  if (!Array.isArray(staff)) {
+    console.error("The 'crops' parameter is not an array:", staff);
+    alert("Invalid crops data. Please try again.");
+    callback(false);
+    return;
+  }
+
+  // Create a FormData object to handle multipart/form-data
+  const formData = new FormData();
+
+  // Append request parts
+  formData.append("logCode", updatedFieldData.logCode);
+  formData.append("logDate", updatedFieldData.logDate);
+  formData.append("observation", updatedFieldData.observation);
+  formData.append("fieldCode", updatedFieldData.fieldCode);
+
+  // Append the observed image, if provided
+  if (updatedFieldData.observedImage) {
+    formData.append("observedImage", updatedFieldData.observedImage);
+  }
+
+  // Construct the URL with query parameters for crops
+  const queryParams = staff
+    .map((staffData) => `staff=${encodeURIComponent(staffData)}`)
+    .join("&");
+  console.log(queryParams, "staff id");
+  const url = `http://localhost:8080/agriculture/api/v1/logstaff/${logCode}?${queryParams}`;
+
+  // Debugging: Log FormData entries
+  console.log("FormData Entries:");
+  for (let [key, value] of formData.entries()) {
+    console.log(`${key}:`, value);
+  }
+
+  // Send the AJAX request
+  $.ajax({
+    url: url, // Endpoint with query parameters for crops
+    type: "PUT", // HTTP method
+    contentType: false, // Let jQuery handle the content type
+    processData: false, // Prevent jQuery from transforming the FormData object
+    data: formData, // FormData payload
+    headers: {
+      Authorization: `Bearer ${token}`, // Include JWT token in Authorization header
+    },
+    success: function (response) {
+      alert("Monitoring Log staff updated successfully!");
+      callback(true);
+    },
+    error: function (xhr, status, error) {
+      callback(false);
+      console.error(
+        `Error updating Monitoring Log (Status: ${status}):`,
+        error
+      );
+      console.error("Response:", xhr.responseText);
     },
   });
 }

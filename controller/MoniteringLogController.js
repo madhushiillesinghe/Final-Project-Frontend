@@ -1,11 +1,12 @@
 import {
   getMoniteringLogData,
   addMoniteringLogData,
-  updateMoniteringLog,
+  updateMonitoringLog,
   deleteMoniteringLog,
   getCropData,
   getFieldData,
   getStaffData,
+  updateMonitoringLogStaff,
 } from "../model/MoniteringLogModel.js";
 
 $(document).ready(() => {
@@ -191,29 +192,63 @@ $(document).on("change", "#observedImage", function () {
   reader.readAsDataURL(this.files[0]);
 });
 // Save Log Changes
-function saveChanges(index, tableRow, logs) {
+function saveChanges(index, logs) {
+  const crops = [];
+  const staff = [];
+  const rows = document.querySelectorAll("#log-table-body-crop tr");
+  const rowStaff = document.querySelectorAll("#log-table-body-staff tr");
+
+  rows.forEach((row) => {
+    const cropCode = row.cells[0].textContent.trim(); // Get and trim the crop code from the first cell
+    crops.push(cropCode); // Collect crop codes as strings
+  });
+  rowStaff.forEach((row) => {
+    const staffId = row.cells[0].textContent.trim(); // Get and trim the crop code from the first cell
+    staff.push(staffId); // Collect crop codes as strings
+  });
+
   const imageobserved = $("#observedImage").prop("files")[0]; // Get the first file for Image 1
   const UpdatedlogData = {
     logCode: $("#logCode").val(),
     logDate: $("#logDate").val(),
     observation: $("#observation").val(),
-    cropCode: $("#cropCode").val(),
     fieldCode: $("#fieldCode").val(),
     staffCode: $("#staffCode").val(),
     observedImage: imageobserved,
   };
+  const cropCode = $("#cropCode").val();
   const logCode = UpdatedlogData.logCode;
-  updateMoniteringLog(logCode, UpdatedlogData, function (success) {
-    if (success) {
-      alert("Monitering Log updated successfully!");
-      const modal = bootstrap.Modal.getInstance($("#editLogModal")[0]);
-      modal.hide();
-      fetchAndUpdateData();
-    } else {
-      alert("Failed to update the log. Please try again.");
-    }
-  });
+  if (!(cropCode == null)) {
+    // Update the monitoring log
+    updateMonitoringLog(logCode, UpdatedlogData, crops, function (success) {
+      if (success) {
+        alert("Monitoring Log with crop updated successfully!");
+        const modal = bootstrap.Modal.getInstance($("#editLogModal")[0]);
+        modal.hide();
+        fetchAndUpdateData(); // Refresh the table or UI
+      } else {
+        alert("Failed to update the log. Please try again.");
+      }
+    });
+  } else {
+    updateMonitoringLogStaff(
+      logCode,
+      UpdatedlogData,
+      staff,
+      function (success) {
+        if (success) {
+          alert("Monitoring Log with crop updated successfully!");
+          const modal = bootstrap.Modal.getInstance($("#editLogModal")[0]);
+          modal.hide();
+          fetchAndUpdateData(); // Refresh the table or UI
+        } else {
+          alert("Failed to update the log. Please try again.");
+        }
+      }
+    );
+  }
 }
+
 function saveNewLog(index, tableRow, logs) {
   const imageobserved = $("#observedImage").prop("files")[0]; // Get the first file for Image 1
   const newlogData = {
@@ -342,3 +377,67 @@ function fetchAndUpdateData() {
     },
   });
 }
+document
+  .getElementById("addStaffBtn")
+  .addEventListener("click", function (event) {
+    // Prevent default button behavior (like form submission or page reload)
+    event.preventDefault();
+
+    const staffSelector = document.getElementById("staffCode");
+    const selectedStaff = staffSelector.value;
+
+    if (selectedStaff) {
+      const logTableBody = document.getElementById("log-table-body-staff");
+
+      // Check for duplicates
+      const existingRows = Array.from(logTableBody.getElementsByTagName("tr"));
+      const isDuplicate = existingRows.some(
+        (row) => row.firstChild.textContent === selectedStaff
+      );
+
+      if (!isDuplicate) {
+        // Create a new table row
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${selectedStaff}</td>
+          <td><button class="btn btn-danger btn-sm remove-field">Remove</button></td>
+        `;
+        logTableBody.appendChild(newRow);
+
+        // Add event listener for the remove button
+        newRow
+          .querySelector(".remove-field")
+          .addEventListener("click", function () {
+            newRow.remove();
+          });
+
+        // Reset the dropdown
+        cropSelector.selectedIndex = 0;
+      } else {
+        alert("Staff code already added.");
+      }
+    } else {
+      alert("Please select a crop code.");
+    }
+  });
+
+// function populateCropTable(crops) {
+//   const logTableBody = document.getElementById("log-table-body");
+//   logTableBody.innerHTML = ""; // Clear existing rows
+
+//   crops.forEach((crop) => {
+//     const newRow = document.createElement("tr");
+//     newRow.innerHTML = `
+//         <td>${crop.cropCode}</td>
+//         <td><button class="btn btn-danger btn-sm remove-field">Remove</button></td>
+//       `;
+//     logTableBody.appendChild(newRow);
+
+//     // Add event listener for the remove button
+//     newRow
+//       .querySelector(".remove-field")
+//       .addEventListener("click", function () {
+//         newRow.remove();
+//       });
+//   });
+// }
