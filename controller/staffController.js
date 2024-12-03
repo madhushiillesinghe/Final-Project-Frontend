@@ -120,10 +120,8 @@ function saveChanges(index, cardElement, staff) {
   const updatedStaff = collectFormData(); // Collect the form data
   const staffId = updatedStaff.id; // Ensure the ID is included in the updated data
 
-  // Call updateStaff with a success callback
   updateStaff(staffId, updatedStaff, function (success) {
     if (success) {
-      // Dynamically update the relevant card with the updated data
       cardElement
         .find("h5")
         .text(`${updatedStaff.name.firstName} ${updatedStaff.name.lastName}`);
@@ -137,18 +135,19 @@ function saveChanges(index, cardElement, staff) {
       cardElement
         .find("p:contains('Email')")
         .text(`Email: ${updatedStaff.email}`);
-      populateFormFields(updatedStaff);
-      alert("Staff member updated successfully!");
 
-      // Close the modal
+      populateFieldTable(updatedStaff.fields); // Update table dynamically
+
+      alert("Staff member updated successfully!");
       const modal = bootstrap.Modal.getInstance($("#editStaffModal")[0]);
       modal.hide();
-      fetchAndUpdateStaffData(); // Call the fetch function to reload the DOM
+      fetchAndUpdateStaffData(); // Refresh staff data
     } else {
       alert("Failed to update the staff member. Please try again.");
     }
   });
 }
+
 // Handle viewing a staff member
 function handleView(staffData, index) {
   const staff = staffData[index];
@@ -261,28 +260,39 @@ function renderStaffCards(staffData) {
 
 // Collect form data
 // Collect form data for edit functionality
-const collectFormData = () => ({
-  id: $("#id").val(),
-  name: {
-    firstName: $("#firstName").val(),
-    lastName: $("#lastName").val(),
-  },
-  designation: $("#designation").val(),
-  gender: $("#gender").val(),
-  address: {
-    roadNo: $("#roadNo").val(),
-    street: $("#street").val(),
-    city: $("#city").val(),
-    district: $("#district").val(),
-    province: $("#province").val(),
-  },
-  contactNo: $("#contactNo").val(),
-  email: $("#email").val(),
-  role: $("#role").val(),
-  field: $("#fieldSelector").val(),
-  joinedDate: $("#joinedDate").val(),
-  dob: $("#dob").val(),
-});
+const collectFormData = () => {
+  const fields = [];
+  const rows = document.querySelectorAll("#log-table-body tr");
+
+  // Loop through each row in the table and collect field codes
+  rows.forEach((row) => {
+    const fieldCode = row.cells[0].textContent; // Get the field code from the first cell
+    fields.push({ fieldCode });
+  });
+
+  return {
+    id: $("#id").val(),
+    name: {
+      firstName: $("#firstName").val(),
+      lastName: $("#lastName").val(),
+    },
+    designation: $("#designation").val(),
+    gender: $("#gender").val(),
+    address: {
+      roadNo: $("#roadNo").val(),
+      street: $("#street").val(),
+      city: $("#city").val(),
+      district: $("#district").val(),
+      province: $("#province").val(),
+    },
+    contactNo: $("#contactNo").val(),
+    email: $("#email").val(),
+    role: $("#role").val(),
+    fields, // Include collected fields here
+    joinedDate: $("#joinedDate").val(),
+    dob: $("#dob").val(),
+  };
+};
 
 // Populate form fields with staff data
 function populateFormFields(staff) {
@@ -355,5 +365,70 @@ function setFormReadOnly(isReadOnly) {
     } else {
       $(this).removeAttr("readonly").removeAttr("disabled");
     }
+  });
+}
+// Add selected field to the table
+document
+  .getElementById("addFieldBtn")
+  .addEventListener("click", function (event) {
+    // Prevent default button behavior (like form submission or page reload)
+    event.preventDefault();
+
+    const fieldSelector = document.getElementById("fieldSelector");
+    const selectedField = fieldSelector.value;
+
+    if (selectedField) {
+      const logTableBody = document.getElementById("log-table-body");
+
+      // Check for duplicates
+      const existingRows = Array.from(logTableBody.getElementsByTagName("tr"));
+      const isDuplicate = existingRows.some(
+        (row) => row.firstChild.textContent === selectedField
+      );
+
+      if (!isDuplicate) {
+        // Create a new table row
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+        <td>${selectedField}</td>
+        <td><button class="btn btn-danger btn-sm remove-field">Remove</button></td>
+      `;
+        logTableBody.appendChild(newRow);
+
+        // Add event listener for the remove button
+        newRow
+          .querySelector(".remove-field")
+          .addEventListener("click", function () {
+            newRow.remove();
+          });
+
+        // Reset the dropdown
+        fieldSelector.selectedIndex = 0;
+      } else {
+        alert("Field code already added.");
+      }
+    } else {
+      alert("Please select a field code.");
+    }
+  });
+
+function populateFieldTable(fields) {
+  const logTableBody = document.getElementById("log-table-body");
+  logTableBody.innerHTML = ""; // Clear existing rows
+
+  fields.forEach((field) => {
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `
+      <td>${field.fieldCode}</td>
+      <td><button class="btn btn-danger btn-sm remove-field">Remove</button></td>
+    `;
+    logTableBody.appendChild(newRow);
+
+    // Add event listener for the remove button
+    newRow
+      .querySelector(".remove-field")
+      .addEventListener("click", function () {
+        newRow.remove();
+      });
   });
 }

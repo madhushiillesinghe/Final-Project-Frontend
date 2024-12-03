@@ -177,9 +177,29 @@
                   <div class="col-4">
                     <label for="fieldSelector" class="form-label">Field</label>
                     <select id="fieldSelector" class="form-select">
+                      <option value="" disabled selected>
+                        Select a field code
+                      </option>
                       <!-- <option value="F04">F04</option>
                       <option value="F05">F05</option> -->
                     </select>
+                    <button class="btn btn-primary mt-2" id="addFieldBtn">
+                      Add Field
+                    </button>
+
+                    <div>
+                      <table class="table table-striped table-hover mt-3">
+                        <thead>
+                          <tr>
+                            <th>Field Code</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody id="log-table-body">
+                          <!-- Rows will be dynamically added here -->
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </form>

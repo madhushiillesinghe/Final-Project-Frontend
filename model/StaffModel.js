@@ -91,14 +91,20 @@ export function addStaffData(newStaff, callback) {
 export function updateStaff(staffId, updatedStaffData, callback) {
   const token = localStorage.getItem("jwtToken"); // Get JWT token from localStorage
 
+  // Check if token is available
+  if (!token) {
+    alert("JWT token is missing or expired.");
+    callback(false);
+    return;
+  }
+
   $.ajax({
-    url: `http://localhost:8080/agriculture/api/v1/staff/${staffId}`, // Endpoint URL
+    url: `http://localhost:8080/agriculture/api/v1/stafffield/${staffId}`, // Endpoint URL
     type: "PUT", // HTTP method
     contentType: "application/json", // Content type for JSON
     data: JSON.stringify(updatedStaffData), // Convert data to JSON string
     headers: {
-      Authorization: `Bearer ` + token, // Include the JWT token (use backticks for template literals)
-      // Set content type to JSON
+      Authorization: `Bearer ${token}`, // Use token to authenticate the request
     },
     success: function () {
       alert("Staff member updated successfully!");
@@ -107,6 +113,7 @@ export function updateStaff(staffId, updatedStaffData, callback) {
     error: function (xhr) {
       callback(false);
       console.error("Error updating staff:", xhr.responseText);
+      alert("Failed to update the staff member. Please try again.");
     },
   });
 }
