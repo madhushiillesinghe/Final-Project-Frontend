@@ -247,16 +247,24 @@ function populateForm(field) {
   $("#extentSize").val(field.extentSize);
   $("#fieldImage1").val("");
   $("#fieldImage2").val("");
-
   // Set image previews using the database image URLs
   if (field.fieldImage1) {
-    $("#fieldImage1Preview").attr("src", field.fieldImage1).show(); // Show the preview image
+      // If stored as a URL or file path
+    
+      $("#fieldImage1Preview")
+        .attr("src", `data:image/jpeg;base64,${field.fieldImage1}`)
+        .show();
+    
   } else {
     $("#fieldImage1Preview").attr("src", "").hide(); // Hide preview if no image
   }
 
   if (field.fieldImage2) {
-    $("#fieldImage2Preview").attr("src", field.fieldImage2).show(); // Show the preview image
+    
+      $("#fieldImage2Preview")
+        .attr("src", `data:image/jpeg;base64,${field.fieldImage2}`)
+        .show();
+  
   } else {
     $("#fieldImage2Preview").attr("src", "").hide(); // Hide preview if no image
   }
