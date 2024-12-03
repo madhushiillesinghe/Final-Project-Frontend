@@ -218,7 +218,8 @@ function saveChanges(index, logs) {
   };
   const cropCode = $("#cropCode").val();
   const logCode = UpdatedlogData.logCode;
-  if (!(cropCode == null)) {
+  console.log(cropCode,"crop code in controller")
+  if (!(cropCode === null)) {
     // Update the monitoring log
     updateMonitoringLog(logCode, UpdatedlogData, crops, function (success) {
       if (success) {
@@ -420,6 +421,50 @@ document
       alert("Please select a crop code.");
     }
   });
+  document
+  .getElementById("addCropdBtn")
+  .addEventListener("click", function (event) {
+    // Prevent default button behavior (like form submission or page reload)
+    event.preventDefault();
+
+    const cropSelector = document.getElementById("cropCode");
+    const selectedCrop = cropSelector.value;
+
+    if (selectedCrop) {
+      const logTableBody = document.getElementById("log-table-body-crop");
+
+      // Check for duplicates
+      const existingRows = Array.from(logTableBody.getElementsByTagName("tr"));
+      const isDuplicate = existingRows.some(
+        (row) => row.firstChild.textContent === selectedStaff
+      );
+
+      if (!isDuplicate) {
+        // Create a new table row
+        const newRow = document.createElement("tr");
+        newRow.innerHTML = `
+          <td>${selectedCrop}</td>
+          <td><button class="btn btn-danger btn-sm remove-field">Remove</button></td>
+        `;
+        logTableBody.appendChild(newRow);
+
+        // Add event listener for the remove button
+        newRow
+          .querySelector(".remove-field")
+          .addEventListener("click", function () {
+            newRow.remove();
+          });
+
+        // Reset the dropdown
+        cropSelector.selectedIndex = 0;
+      } else {
+        alert("Staff code already added.");
+      }
+    } else {
+      alert("Please select a crop code.");
+    }
+  });
+
 
 // function populateCropTable(crops) {
 //   const logTableBody = document.getElementById("log-table-body");
