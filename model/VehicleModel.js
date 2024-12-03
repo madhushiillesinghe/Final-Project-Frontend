@@ -124,10 +124,12 @@ export function getStaffData() {
     success: function (data) {
       const staffSelector = $("#staffId"); // Select the dropdown
       staffSelector.empty();
-      console.log(data,"Staff data")
+      console.log(data, "Staff data");
       data.forEach((staff) => {
         // Append each field name as an <option>
-        staffSelector.append(`<option value="${staff.id}">${staff.name.firstName}</option>`);
+        staffSelector.append(
+          `<option value="${staff.id}">${staff.name.firstName}</option>`
+        );
       });
       console.log("Staff data:", data);
     },

@@ -163,10 +163,12 @@ export function getFieldData() {
     success: function (data) {
       const fieldSelector = $("#fieldSelector"); // Select the dropdown
       fieldSelector.empty();
-      console.log(data,"field data")
+      console.log(data, "field data");
       data.forEach((field) => {
         // Append each field name as an <option>
-        fieldSelector.append(`<option value="${field.fieldCode}">${field.fieldName}</option>`);
+        fieldSelector.append(
+          `<option value="${field.fieldCode}">${field.fieldName}</option>`
+        );
       });
       console.log("Field data:", data);
     },

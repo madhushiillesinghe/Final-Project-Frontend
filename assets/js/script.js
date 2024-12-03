@@ -10,8 +10,6 @@ signInBtn.addEventListener("click", () => {
   container.classList.remove("sign-up-mode");
 });
 
-
-
 signUpBtn.addEventListener("click", () => {
   container.classList.add("sign-up-mode");
 });
@@ -24,8 +22,12 @@ signInBtn.addEventListener("click", () => {
 document.querySelector(".sign-up-form").addEventListener("submit", (e) => {
   e.preventDefault(); // Prevent default form submission
 
-  const email = document.querySelector(".sign-up-form input[type='email']").value;
-  const password = document.querySelector(".sign-up-form input[type='password']").value;
+  const email = document.querySelector(
+    ".sign-up-form input[type='email']"
+  ).value;
+  const password = document.querySelector(
+    ".sign-up-form input[type='password']"
+  ).value;
   const jobRole = document.getElementById("jobRole").value;
 
   if (!jobRole) {
@@ -33,22 +35,29 @@ document.querySelector(".sign-up-form").addEventListener("submit", (e) => {
     return;
   }
 
-  const data = {
-    email: email,
-    password: password,
-    role: jobRole,
-  };
+  // Use FormData to handle multipart form data
+  const formData = new FormData();
+  formData.append("email", email);
+  formData.append("password", password);
+  formData.append("role", jobRole);
 
- 
+  // Debug: Log form data entries
+  for (let [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
 
+  // Send AJAX request
   $.ajax({
-    url: "http://localhost:8080/api/v1/auth/signup", // Replace with your backend endpoint
+    url: "http://localhost:8080/agriculture/api/v1/auth/signup", // Replace with your backend endpoint
     type: "POST",
-    contentType: "application/json",
-    data: JSON.stringify(data),
+    processData: false, // Prevent jQuery from processing the data
+    contentType: false, // Let the browser set the Content-Type header
+    data: formData,
     success: function (response) {
-      alert("Sign up successful! Please log in.");
-      document.querySelector(".sign-up-form").reset(); // Reset the form
+      const token = response.token; // Assuming your backend returns a JWT token
+      localStorage.setItem("jwtToken", token); // Store token in localStorage
+      alert("Sign up successful!");
+      window.location.href = "/pages/staff.html"; // Redirect to the dashboard
     },
     error: function (xhr) {
       console.error("Sign up failed:", xhr.responseText);
@@ -61,8 +70,12 @@ document.querySelector(".sign-up-form").addEventListener("submit", (e) => {
 document.querySelector(".sign-in-form").addEventListener("submit", (e) => {
   e.preventDefault(); // Prevent default form submission
 
-  const email = document.querySelector(".sign-in-form input[type='email']").value;
-  const password = document.querySelector(".sign-in-form input[type='password']").value;
+  const email = document.querySelector(
+    ".sign-in-form input[type='email']"
+  ).value;
+  const password = document.querySelector(
+    ".sign-in-form input[type='password']"
+  ).value;
 
   const data = {
     email: email,

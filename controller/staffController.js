@@ -7,7 +7,7 @@ import {
 } from "../model/StaffModel.js";
 async function init() {
   try {
-    getFieldData()
+    getFieldData();
     const staffData = await getStaffData(); // Wait for the data to be resolved
     console.log("Fetched staff data:", staffData);
 
@@ -21,7 +21,7 @@ async function init() {
 }
 
 $("#addbtn").click(async function () {
-  setFormReadOnly(false)
+  setFormReadOnly(false);
   console.log("Clicked add button");
   const staffData = await getStaffData(); // Wait for the data to be resolved
 
@@ -83,7 +83,7 @@ async function saveNewStaff() {
 
 // Handle editing a staff member
 function handleEdit(staffData, index, cardElement) {
-  setFormReadOnly(false)
+  setFormReadOnly(false);
   const staff = staffData[index];
   console.log(staff, "staff");
   populateFormFields(staff); // Populate fields with data

@@ -168,7 +168,9 @@ export function getStaffData() {
       staffSelector.empty();
       data.forEach((staff) => {
         // Append each field name as an <option>
-        staffSelector.append(`<option value="${staff.id}">${staff.name.firstName}</option>`);
+        staffSelector.append(
+          `<option value="${staff.id}">${staff.name.firstName}</option>`
+        );
       });
       console.log("Staff data:", data);
     },
@@ -193,10 +195,12 @@ export function getFieldData() {
     success: function (data) {
       const fieldSelector = $("#fieldCode"); // Select the dropdown
       fieldSelector.empty();
-      console.log(data,"field data")
+      console.log(data, "field data");
       data.forEach((field) => {
         // Append each field name as an <option>
-        fieldSelector.append(`<option value="${field.fieldCode}">${field.fieldName}</option>`);
+        fieldSelector.append(
+          `<option value="${field.fieldCode}">${field.fieldName}</option>`
+        );
       });
       console.log("Field data:", data);
     },
@@ -219,10 +223,12 @@ export function getCropData() {
     success: function (data) {
       const cropSelector = $("#cropCode"); // Select the dropdown
       cropSelector.empty();
-      console.log(data,"crop data")
+      console.log(data, "crop data");
       data.forEach((crop) => {
         // Append each field name as an <option>
-        cropSelector.append(`<option value="${crop.code}">${crop.commonName}</option>`);
+        cropSelector.append(
+          `<option value="${crop.code}">${crop.commonName}</option>`
+        );
       });
       console.log("Crop data:", data);
     },

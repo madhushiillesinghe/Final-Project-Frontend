@@ -19,7 +19,7 @@ async function init() {
   }
 }
 $(document).ready(() => {
-  getStaffData()
+  getStaffData();
   init();
 });
 const vehicleContainer = $("#vehicle-container");
@@ -110,7 +110,7 @@ function editVehicle(vehicleData, index, cardElement) {
   const vehicle = vehicleData[index];
 
   if (vehicle) {
-    console.log(vehicle,"vehicle data is ")
+    console.log(vehicle, "vehicle data is ");
     // Populate the form with the vehicle data
     $("#vehicleCode").val(vehicle.vehicleCode);
     $("#licensePlateNo").val(vehicle.licensePlateNo);
@@ -229,7 +229,7 @@ function saveVehicleChanges(index, cardElement, vehicleData) {
 
 $("#addbtn").click(async function () {
   resetFormFields();
-  setFormReadOnly(false)
+  setFormReadOnly(false);
 
   const vehicleData = await getVehicleData();
 
