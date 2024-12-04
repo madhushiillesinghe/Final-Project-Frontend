@@ -126,27 +126,31 @@ function editEquipment(equipmentData, index, cardElement) {
 function saveEquipmentChanges(index, cardElement, equipmentData) {
   const updatedEquipment = getFormData();
   const equipmentCode = updatedEquipment.id; // Ensure the ID is included in the updated data
-  updateEquipmentData(equipmentCode, updatedEquipment, function (success) {
-    if (success) {
-      cardElement.find("h5").text(`${updatedEquipment.name}`);
-      cardElement.find("p:contains('id ')").text(`id : ${updatedEquipment.id}`);
-      cardElement
-        .find("p:contains('type')")
-        .text(`type: ${updatedEquipment.type}`);
-      cardElement
-        .find("p:contains('status')")
-        .text(`status: ${updatedEquipment.status}`);
+  if (validate(updatedEquipment)) {
+    updateEquipmentData(equipmentCode, updatedEquipment, function (success) {
+      if (success) {
+        cardElement.find("h5").text(`${updatedEquipment.name}`);
+        cardElement
+          .find("p:contains('id ')")
+          .text(`id : ${updatedEquipment.id}`);
+        cardElement
+          .find("p:contains('type')")
+          .text(`type: ${updatedEquipment.type}`);
+        cardElement
+          .find("p:contains('status')")
+          .text(`status: ${updatedEquipment.status}`);
 
-      populateForm(updatedEquipment);
-      const editEquipmentModal = bootstrap.Modal.getInstance(
-        $("#editEquipmentModal")
-      );
-      editEquipmentModal.hide();
-      fetchAndUpdateData(); // Call the fetch function to reload the DOM
-    } else {
-      alert("Failed to update the Equipment. Please try again.");
-    }
-  });
+        populateForm(updatedEquipment);
+        const editEquipmentModal = bootstrap.Modal.getInstance(
+          $("#editEquipmentModal")
+        );
+        editEquipmentModal.hide();
+        fetchAndUpdateData(); // Call the fetch function to reload the DOM
+      } else {
+        alert("Failed to update the Equipment. Please try again.");
+      }
+    });
+  }
 }
 $("#addbtn").click(async function () {
   resetFormFields();
@@ -180,12 +184,14 @@ $("#addbtn").click(async function () {
 function saveNewEquipment() {
   const newEquipment = getFormData();
   console.log(newEquipment, "new equipment");
-  addEquipmentData(newEquipment, function (success) {
-    if (success) {
-      fetchAndUpdateData();
-      closeModal();
-    }
-  });
+  if (validate(newEquipment)) {
+    addEquipmentData(newEquipment, function (success) {
+      if (success) {
+        fetchAndUpdateData();
+        closeModal();
+      }
+    });
+  }
 }
 
 function viewEquipment(equipmentData, index) {
@@ -320,4 +326,17 @@ function updateDateTime() {
   const time = now.toLocaleTimeString();
 
   dateTimeElement.textContent = `${day}, ${date} ${time}`;
+}
+function validate(newEquipment) {
+  let valid = true;
+
+  // Validate First Name
+  if (/^[A-Za-z0-9][A-Za-z0-9 _-]{0,48}[A-Za-z0-9]$/.test(newEquipment.name)) {
+    $("#equipment-form .invalidname").text("");
+  } else {
+    $("#equipment-form .invalidname").text("Invalid equipment name");
+  }
+
+  console.log(valid, "valid is");
+  return valid; // Return the validation result
 }

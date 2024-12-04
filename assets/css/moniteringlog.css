@@ -63,6 +63,9 @@ textarea {
   border: 1px solid #ccc; /* Border color for the search bar */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional shadow for effect */
 }
-thead{
+thead {
   color: #28a745;
+}
+#logForm h5 {
+  font-size: 15px;
 }

@@ -157,25 +157,24 @@ $("#addbtn").click(async function () {
 function saveNewField() {
   const newField = getFieldFormData(); // Collect the form data
   console.log("New Field Data:", newField);
-
   if (!newField.fieldImage1 || !newField.fieldImage2) {
     alert("Please upload both images before saving.");
     return;
   }
+  if (validate(newField)) {
+    // Call the function to send data to the server
+    addFieldData(newField, function (success) {
+      if (success) {
+        fetchAndUpdateFieldData(); // Update the UI with the latest data
+        alert("Field added successfully!");
 
-  // Call the function to send data to the server
-  addFieldData(newField, function (success) {
-    if (success) {
-      fetchAndUpdateFieldData(); // Update the UI with the latest data
-      alert("Field added successfully!");
-
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance($("#editFieldModal")[0]);
-      modal.hide();
-    }
-  });
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance($("#editFieldModal")[0]);
+        modal.hide();
+      }
+    });
+  }
 }
-
 // Function to Edit a Field
 function editfield(fieldData, index, cardElement) {
   setFormReadOnly(false);
@@ -202,32 +201,33 @@ function saveFieldChanges(index, cardElement, field) {
   const updatedField = getFieldFormData();
   console.log(updatedField.fieldImage1, "field image is");
   const fieldCode = updatedField.fieldCode;
-  updateField(fieldCode, updatedField, function (success) {
-    if (success) {
-      // Dynamically update the relevant card with the updated data
-      cardElement.find("h5").text(`${updatedField.fieldName}`);
-      cardElement
-        .find("p:contains('code ')")
-        .text(`Designation: ${updatedField.fieldCode}`);
-      cardElement
-        .find("p:contains('Location')")
-        .text(`Location: ${updatedField.fieldLocation}`);
-      cardElement
-        .find("p:contains('extend size')")
-        .text(`extend size: ${updatedField.extentSize}`);
-      populateForm(updatedField);
-      alert("Field updated successfully!");
+  if (validate(newField)) {
+    updateField(fieldCode, updatedField, function (success) {
+      if (success) {
+        // Dynamically update the relevant card with the updated data
+        cardElement.find("h5").text(`${updatedField.fieldName}`);
+        cardElement
+          .find("p:contains('code ')")
+          .text(`Designation: ${updatedField.fieldCode}`);
+        cardElement
+          .find("p:contains('Location')")
+          .text(`Location: ${updatedField.fieldLocation}`);
+        cardElement
+          .find("p:contains('extend size')")
+          .text(`extend size: ${updatedField.extentSize}`);
+        populateForm(updatedField);
+        alert("Field updated successfully!");
 
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance($("#editFieldModal")[0]);
-      modal.hide();
-      fetchAndUpdateFieldData(); // Call the fetch function to reload the DOM
-    } else {
-      alert("Failed to update the field. Please try again.");
-    }
-  });
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance($("#editFieldModal")[0]);
+        modal.hide();
+        fetchAndUpdateFieldData(); // Call the fetch function to reload the DOM
+      } else {
+        alert("Failed to update the field. Please try again.");
+      }
+    });
+  }
 }
-
 // Function to View a Field
 function viewField(fieldData, index) {
   const field = fieldData[index];
@@ -386,4 +386,24 @@ function updateDateTime() {
   const time = now.toLocaleTimeString();
 
   dateTimeElement.textContent = `${day}, ${date} ${time}`;
+}
+function validate(newField) {
+  let valid = true;
+
+  // Validate First Name
+  if (/^[A-Za-z0-9][A-Za-z0-9 _-]{0,48}[A-Za-z0-9]$/.test(newField.fieldName)) {
+    $("#field-form .invalidname").text("");
+  } else {
+    $("#field-form .invalidname").text("Invalid Field name");
+  }
+  if (
+    /^[-+]?([1-8]?\d(\.\d+)?|90(\.0+)?),\s*[-+]?((1[0-7]\d|[1-9]?\d)(\.\d+)?|180(\.0+)?)$/.test(
+      newField.fieldLocation
+    )
+  ) {
+    $("#field-form .invalidLocation").text("");
+  } else {
+    $("#field-form .invalidLocation").text("Invalid field location");
+  }
+  return valid;
 }
