@@ -137,14 +137,16 @@ function saveNewCrop() {
     alert("Please upload  image before saving.");
     return;
   }
-  addCropData(newCrop, function (success) {
-    if (success) {
-      fetchAndUpdateCropData(); // Update the UI with the latest data
-      alert("New crop added successfully!");
+  if (validate(newCrop)) {
+    addCropData(newCrop, function (success) {
+      if (success) {
+        fetchAndUpdateCropData(); // Update the UI with the latest data
+        alert("New crop added successfully!");
 
-      closeModal();
-    }
-  });
+        closeModal();
+      }
+    });
+  }
 }
 
 // Function to Edit a Crop
@@ -172,29 +174,33 @@ function saveCropChanges(index, cardElement, cropData) {
   cropData[index] = updatedCrop;
   const cropCode = updateCrop.code;
   console.log(updatedCrop.code, "crop code");
-  updateCrop(updatedCrop.code, updatedCrop, function (success) {
-    if (success) {
-      // Dynamically update the relevant card with the updated data
-      cardElement.find("h5").text(`${updatedCrop.commonName}`);
-      cardElement.find("p:contains('code')").text(`code: ${updatedCrop.code}`);
-      cardElement
-        .find("p:contains('Scientific Name')")
-        .text(`Scientific Name: ${updatedCrop.scientificName}`);
-      cardElement
-        .find("p:contains('Season')")
-        .text(`Season: ${updatedCrop.season}`);
-      cardElement
-        .find("p:contains('Category')")
-        .text(`Category: ${updatedCrop.category}`);
-      populateForm(updatedCrop);
-      alert("Crop updated successfully!");
-      closeModal();
+  if (validate(updatedCrop)) {
+    updateCrop(updatedCrop.code, updatedCrop, function (success) {
+      if (success) {
+        // Dynamically update the relevant card with the updated data
+        cardElement.find("h5").text(`${updatedCrop.commonName}`);
+        cardElement
+          .find("p:contains('code')")
+          .text(`code: ${updatedCrop.code}`);
+        cardElement
+          .find("p:contains('Scientific Name')")
+          .text(`Scientific Name: ${updatedCrop.scientificName}`);
+        cardElement
+          .find("p:contains('Season')")
+          .text(`Season: ${updatedCrop.season}`);
+        cardElement
+          .find("p:contains('Category')")
+          .text(`Category: ${updatedCrop.category}`);
+        populateForm(updatedCrop);
+        alert("Crop updated successfully!");
+        closeModal();
 
-      fetchAndUpdateCropData(); // Call the fetch function to reload the DOM
-    } else {
-      alert("Failed to update the crop. Please try again.");
-    }
-  });
+        fetchAndUpdateCropData(); // Call the fetch function to reload the DOM
+      } else {
+        alert("Failed to update the crop. Please try again.");
+      }
+    });
+  }
 }
 $("#search-bar").keyup(async function () {
   console.log("Searching for crop...");
@@ -350,4 +356,36 @@ function updateDateTime() {
   const time = now.toLocaleTimeString();
 
   dateTimeElement.textContent = `${day}, ${date} ${time}`;
+}
+function validate(newCrop) {
+  let valid = true;
+
+  // Validate First Name
+  if (/^[A-Z][a-z]*(?: [A-Z][a-z]*)*$/.test(newCrop.commonName)) {
+    $("#crop-form .invalidCommonName").text("");
+  } else {
+    $("#crop-form .invalidCommonName").text("Invalid  Common Name");
+    valid = false;
+  }
+  if (/^[A-Z][a-z]*(?: [A-Z][a-z]*)*$/.test(newCrop.scientificName)) {
+    $("#crop-form .invalidscientificName").text("");
+  } else {
+    $("#crop-form .invalidscientificName").text("invalid scientific Name");
+    valid = false;
+  }
+  if (/^[A-Z][a-z]*(?: [A-Z][a-z]*)*$/.test(newCrop.category)) {
+    $("#crop-form .invalidCategory").text("");
+  } else {
+    $("#crop-form .invalidCategory").text("Invalid  Category");
+    valid = false;
+  }
+  if (/^[A-Z][a-z]*(?: [A-Z][a-z]*)*$/.test(newCrop.season)) {
+    $("#crop-form .invalidSeason").text("");
+  } else {
+    $("#crop-form .invalidSeason").text("invalid season");
+    valid = false;
+  }
+
+  console.log(valid, "valid is");
+  return valid; // Return the validation result
 }

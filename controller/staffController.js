@@ -65,20 +65,23 @@ $("#addbtn").click(async function () {
 
 async function saveNewStaff() {
   const newStaff = collectFormData(); // Collect data from the form
-  const staffData = await getStaffData(); // Fetch the current staff data
-  const cardElement = $(this).closest(".staff-card"); // Find the closest card element
+  console.log();
+  if (validate(newStaff)) {
+    const staffData = await getStaffData(); // Fetch the current staff data
+    const cardElement = $(this).closest(".staff-card"); // Find the closest card element
 
-  // Send new staff data to the backend
-  addStaffData(newStaff, function (success) {
-    if (success) {
-      fetchAndUpdateStaffData();
-      alert("Staff member added successfully!");
+    // Send new staff data to the backend
+    addStaffData(newStaff, function (success) {
+      if (success) {
+        fetchAndUpdateStaffData();
+        alert("Staff member added successfully!");
 
-      // Close the modal
-      const modal = bootstrap.Modal.getInstance($("#editStaffModal"));
-      modal.hide();
-    }
-  });
+        // Close the modal
+        const modal = bootstrap.Modal.getInstance($("#editStaffModal"));
+        modal.hide();
+      }
+    });
+  }
 }
 
 // Handle editing a staff member
@@ -119,33 +122,34 @@ function handleEdit(staffData, index, cardElement) {
 function saveChanges(index, cardElement, staff) {
   const updatedStaff = collectFormData(); // Collect the form data
   const staffId = updatedStaff.id; // Ensure the ID is included in the updated data
+  if (validate(updatedStaff)) {
+    updateStaff(staffId, updatedStaff, function (success) {
+      if (success) {
+        cardElement
+          .find("h5")
+          .text(`${updatedStaff.name.firstName} ${updatedStaff.name.lastName}`);
+        cardElement.find("p:contains('ID')").text(`ID: ${updatedStaff.id}`);
+        cardElement
+          .find("p:contains('Designation')")
+          .text(`Designation: ${updatedStaff.designation}`);
+        cardElement
+          .find("p:contains('Contact')")
+          .text(`Contact: ${updatedStaff.contactNo}`);
+        cardElement
+          .find("p:contains('Email')")
+          .text(`Email: ${updatedStaff.email}`);
 
-  updateStaff(staffId, updatedStaff, function (success) {
-    if (success) {
-      cardElement
-        .find("h5")
-        .text(`${updatedStaff.name.firstName} ${updatedStaff.name.lastName}`);
-      cardElement.find("p:contains('ID')").text(`ID: ${updatedStaff.id}`);
-      cardElement
-        .find("p:contains('Designation')")
-        .text(`Designation: ${updatedStaff.designation}`);
-      cardElement
-        .find("p:contains('Contact')")
-        .text(`Contact: ${updatedStaff.contactNo}`);
-      cardElement
-        .find("p:contains('Email')")
-        .text(`Email: ${updatedStaff.email}`);
+        populateFieldTable(updatedStaff.fields); // Update table dynamically
 
-      populateFieldTable(updatedStaff.fields); // Update table dynamically
-
-      alert("Staff member updated successfully!");
-      const modal = bootstrap.Modal.getInstance($("#editStaffModal")[0]);
-      modal.hide();
-      fetchAndUpdateStaffData(); // Refresh staff data
-    } else {
-      alert("Failed to update the staff member. Please try again.");
-    }
-  });
+        alert("Staff member updated successfully!");
+        const modal = bootstrap.Modal.getInstance($("#editStaffModal")[0]);
+        modal.hide();
+        fetchAndUpdateStaffData(); // Refresh staff data
+      } else {
+        alert("Failed to update the staff member. Please try again.");
+      }
+    });
+  }
 }
 
 // Handle viewing a staff member
@@ -459,4 +463,37 @@ function updateDateTime() {
   const time = now.toLocaleTimeString();
 
   dateTimeElement.textContent = `${day}, ${date} ${time}`;
+}
+function validate(newStaff) {
+  let valid = true;
+
+  // Validate First Name
+  if (/^[A-Z][a-z]*(?: [A-Z][a-z]*)*$/.test(newStaff.name.firstName)) {
+    $("#staff-form .invalidStaffName").text("");
+  } else {
+    $("#staff-form .invalidStaffName").text("Invalid staff First Name");
+    valid = false;
+  }
+
+  // Validate Contact Number (e.g., supports formats like 1234567890, +911234567890, (123) 456-7890)
+  if (
+    /^\+?[0-9]{1,4}?[-. (]?[0-9]{3}[-. )]?[0-9]{3}[-. ]?[0-9]{4}$/.test(
+      newStaff.contactNo
+    )
+  ) {
+    $("#staff-form .invalidContactNo").text("");
+  } else {
+    $("#staff-form .invalidContactNo").text("Invalid staff Contact No");
+    valid = false;
+  }
+
+  // Validate Email
+  if (/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(newStaff.email)) {
+    $("#staff-form .invalidCEmail").text("");
+  } else {
+    $("#staff-form .invalidCEmail").text("Invalid staff Email");
+    valid = false;
+  }
+  console.log(valid, "valid is");
+  return valid; // Return the validation result
 }
