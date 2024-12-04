@@ -432,3 +432,29 @@ function populateFieldTable(fields) {
       });
   });
 }
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("topbar.html")
+    .then((response) => response.text())
+    .then((html) => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      document.body.insertAdjacentElement("afterbegin", tempDiv);
+
+      // After the top bar is loaded, initialize the date-time functionality
+      updateDateTime();
+      setInterval(updateDateTime, 1000); // Update every second
+    })
+    .catch((error) => console.error("Error loading topbar:", error));
+});
+
+function updateDateTime() {
+  const dateTimeElement = document.getElementById("date-time");
+  const now = new Date();
+
+  const options = { weekday: "long" };
+  const day = new Intl.DateTimeFormat("en-US", options).format(now);
+  const date = now.toLocaleDateString("en-GB");
+  const time = now.toLocaleTimeString();
+
+  dateTimeElement.textContent = `${day}, ${date} ${time}`;
+}

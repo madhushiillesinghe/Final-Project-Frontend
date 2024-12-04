@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Top Bar</title>
+    <link rel="stylesheet" href="../assets/css/topbar.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="logo">
+        <h2>GREEN SHADOW</h2>
+      </div>
+
+      <div class="date-time" id="date-time"></div>
+      <!-- Date and Time -->
+      <i class="fas fa-bell notification-icon"></i>
+
+      <div class="user">
+        <img src="../assets/image/user.png" alt="User" />
+      </div>
+    </div>
+
+    <script>
+      // JavaScript to display current date and time
+      function updateDateTime() {
+        const dateTimeElement = document.getElementById("date-time");
+        const now = new Date();
+
+        // Format: Day, DD-MM-YYYY HH:MM:SS
+        const options = { weekday: "long" };
+        const day = new Intl.DateTimeFormat("en-US", options).format(now);
+        const date = now.toLocaleDateString("en-GB"); // Format: DD-MM-YYYY
+        const time = now.toLocaleTimeString(); // Format: HH:MM:SS
+
+        dateTimeElement.textContent = `${day}, ${date} ${time}`;
+      }
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("topbar.html")
+          .then((response) => response.text())
+          .then((html) => {
+            const tempDiv = document.createElement("div");
+            tempDiv.innerHTML = html;
+            document.body.insertAdjacentElement("afterbegin", tempDiv);
+          })
+          .catch((error) => console.error("Error loading sidebar:", error));
+      });
+      // Update date and time every second
+      setInterval(updateDateTime, 1000);
+      updateDateTime(); // Initial call to display date-time immediately
+    </script>
+  </body>
+</html>

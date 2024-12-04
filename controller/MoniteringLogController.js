@@ -83,11 +83,6 @@ $("#addbtn").click(async function () {
   console.log("Clicked add button");
   const logData = await getMoniteringLogData(); // Wait for the data to be resolved
 
-  if (!logData || logData.length === 0) {
-    console.error("log data is empty or undefined!");
-    return;
-  }
-
   // Generate a new ID based on the number of existing staff
   const newId = `L${String(logData.length + 1).padStart(2, "0")}`;
   console.log("Generated ID:", newId);
@@ -218,7 +213,7 @@ function saveChanges(index, logs) {
   };
   const cropCode = $("#cropCode").val();
   const logCode = UpdatedlogData.logCode;
-  console.log(cropCode,"crop code in controller")
+  console.log(cropCode, "crop code in controller");
   if (!(cropCode === null)) {
     // Update the monitoring log
     updateMonitoringLog(logCode, UpdatedlogData, crops, function (success) {
@@ -421,7 +416,7 @@ document
       alert("Please select a crop code.");
     }
   });
-  document
+document
   .getElementById("addCropdBtn")
   .addEventListener("click", function (event) {
     // Prevent default button behavior (like form submission or page reload)
@@ -465,7 +460,6 @@ document
     }
   });
 
-
 // function populateCropTable(crops) {
 //   const logTableBody = document.getElementById("log-table-body");
 //   logTableBody.innerHTML = ""; // Clear existing rows
@@ -486,3 +480,29 @@ document
 //       });
 //   });
 // }
+document.addEventListener("DOMContentLoaded", function () {
+  fetch("topbar.html")
+    .then((response) => response.text())
+    .then((html) => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      document.body.insertAdjacentElement("afterbegin", tempDiv);
+
+      // After the top bar is loaded, initialize the date-time functionality
+      updateDateTime();
+      setInterval(updateDateTime, 1000); // Update every second
+    })
+    .catch((error) => console.error("Error loading topbar:", error));
+});
+
+function updateDateTime() {
+  const dateTimeElement = document.getElementById("date-time");
+  const now = new Date();
+
+  const options = { weekday: "long" };
+  const day = new Intl.DateTimeFormat("en-US", options).format(now);
+  const date = now.toLocaleDateString("en-GB");
+  const time = now.toLocaleTimeString();
+
+  dateTimeElement.textContent = `${day}, ${date} ${time}`;
+}
