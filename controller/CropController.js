@@ -94,26 +94,38 @@ $("#addCropBtn").click(async function () {
 
   const cropData = await getCropData();
   if (!cropData || cropData.length === 0) {
-    console.error("crop data is empty or undefined!");
+    console.error("Crop data is empty or undefined!");
     return;
   }
+
+  // Generate a new ID for the crop
   const newId = `C${String(cropData.length + 1).padStart(3, "0")}`;
   console.log("Generated ID:", newId);
 
+  // Set modal title and reset the form
   $("#editCropModal .modal-title").text("Add Crop");
-  resetFormCrops();
 
-  $("#saveCropBtn").show();
-  $("#saveCropBtn").text("Save").on("click", saveNewCrop);
+  // Show the save button and bind the save event
+  $("#saveCropBtn")
+    .show()
+    .text("Save")
+    .off("click") // Prevent duplicate event bindings
+    .on("click", saveNewCrop);
+
+  // Show the modal
   $("#editCropModal").modal("show");
 
+  // Ensure the modal is ready before setting the value
   $("#editCropModal").on("shown.bs.modal", function () {
     const cropInput = $("#cropCode");
+    console.log(cropInput, "crop input");
+
+    // Check if the input field exists and set the value
     if (cropInput.length) {
-      cropInput.val(newId);
+      cropInput.val(newId); // Set the generated ID
       console.log("ID successfully set in input crop:", cropInput.val());
     } else {
-      console.error("#id input crop not found!");
+      console.error("#cropCode input field not found!");
     }
   });
 });

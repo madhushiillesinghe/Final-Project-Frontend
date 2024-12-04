@@ -101,6 +101,7 @@ $("#search-bar").keyup(async function () {
   const filteredField = field.filter(
     (fieldcard) =>
       `${fieldcard.fieldCode} `.toLowerCase().includes(searchTerm) ||
+      `${fieldcard.extentSize} `.toLowerCase().includes(searchTerm) ||
       `${fieldcard.fieldNamed}`.toLowerCase().includes(searchTerm)
   );
 

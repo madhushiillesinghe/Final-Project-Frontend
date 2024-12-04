@@ -84,7 +84,7 @@ export function addStaffData(newStaff, callback) {
     error: function (xhr, status, error) {
       callback(true);
       console.error("Error adding staff:", error);
-      alert("Error adding staff. Please try again.");
+      alert("Error adding staff. This user cannot access staff ");
     },
   });
 }
@@ -113,7 +113,9 @@ export function updateStaff(staffId, updatedStaffData, callback) {
     error: function (xhr) {
       callback(false);
       console.error("Error updating staff:", xhr.responseText);
-      alert("Failed to update the staff member. Please try again.");
+      alert(
+        "Failed to update the staff member. This user cannot access staff."
+      );
     },
   });
 }
@@ -146,7 +148,9 @@ export function deleteStaff(staffId, cardElement, callback) {
     error: function (xhr, status, error) {
       callback(false);
       console.error("There was an error with the AJAX request:", error);
-      alert("An error occurred while deleting the staff member.");
+      alert(
+        "An error occurred while deleting the staff member.This user cannot access staff"
+      );
     },
   });
 }

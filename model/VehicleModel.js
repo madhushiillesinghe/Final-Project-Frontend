@@ -50,7 +50,7 @@ export function addVehicleData(newVehicle, callback) {
     error: function (xhr, status, error) {
       callback(true);
       console.error("Error adding vehicle:", error);
-      alert("Error adding staff. Please try again.");
+      alert("Error adding staff. This user cannot access vehicle");
     },
   });
 }
@@ -73,6 +73,8 @@ export function updateVehicleData(vehicleCode, updatedVehicleData, callback) {
     error: function (xhr) {
       callback(false);
       console.error("Error updating vehicle:", xhr.responseText);
+      alert("Error updateing staff. This user cannot access vehicle");
+
     },
   });
 }
@@ -106,7 +108,7 @@ export function deleteVehicle(vehicleCode, cardElement, callback) {
     error: function (xhr, status, error) {
       callback(false);
       console.error("There was an error with the AJAX request:", error);
-      alert("An error occurred while deleting the vehicle.");
+      alert("Error deleting vehicle. This user cannot access vehicle");
     },
   });
 }

@@ -47,7 +47,7 @@ export function addEquipmentData(newEquipment, callback) {
     error: function (xhr, status, error) {
       callback(true);
       console.error("Error adding Equipment:", error);
-      alert("Error adding Equipment. Please try again.");
+      alert("Error adding Equipment. This user can not access equipment");
     },
   });
 }
@@ -73,6 +73,8 @@ export function updateEquipmentData(
     },
     error: function (xhr) {
       callback(false);
+      alert("Error adding Equipment. This user can not access equipment");
+
       console.error("Error updating Equipment:", xhr.responseText);
     },
   });
@@ -106,7 +108,9 @@ export function deleteEquipment(equipmentCode, cardElement, callback) {
     error: function (xhr, status, error) {
       callback(false);
       console.error("There was an error with the AJAX request:", error);
-      alert("An error occurred while deleting the Equipment");
+      alert(
+        "An error occurred while deleting the Equipment.This user can not access equipment"
+      );
     },
   });
 }

@@ -97,7 +97,9 @@ $("#search-bar").keyup(async function () {
   const filteredVehicle = vehicle.filter(
     (vehicleCard) =>
       `${vehicleCard.vehicleCode}`.toLowerCase().includes(searchTerm) ||
-      `${vehicleCard.licensePlateNo}`.toLowerCase().includes(searchTerm)
+      `${vehicleCard.licensePlateNo}`.toLowerCase().includes(searchTerm) ||
+      `${vehicleCard.vehicleCategory}`.toLowerCase().includes(searchTerm) ||
+      `${vehicleCard.status}`.toLowerCase().includes(searchTerm)
   );
 
   // Render the filtered staff cards
@@ -222,7 +224,6 @@ function saveVehicleChanges(index, cardElement, vehicleData) {
       editVehicleModal.hide();
       fetchAndUpdateData(); // Call the fetch function to reload the DOM
     } else {
-      alert("Failed to update the vehicle. Please try again.");
     }
   });
 }

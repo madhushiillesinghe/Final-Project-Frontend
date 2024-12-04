@@ -96,6 +96,7 @@ $("#search-bar").keyup(async function () {
   const filteredEquipment = equipmentData.filter(
     (equipmentCard) =>
       `${equipmentCard.id}`.toLowerCase().includes(searchTerm) ||
+      `${equipmentCard.status}`.toLowerCase().includes(searchTerm) ||
       `${equipmentCard.name}`.toLowerCase().includes(searchTerm)
   );
 

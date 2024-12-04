@@ -186,7 +186,9 @@ $("#search-bar").keyup(async function () {
       `${staffMember.name.firstName} ${staffMember.name.lastName}`
         .toLowerCase()
         .includes(searchTerm) ||
-      `${staffMember.id}`.toLowerCase().includes(searchTerm)
+      `${staffMember.id}`.toLowerCase().includes(searchTerm) ||
+      `${staffMember.designation}`.toLowerCase().includes(searchTerm) ||
+      `${staffMember.gender}`.toLowerCase().includes(searchTerm)
   );
 
   // Render the filtered staff cards
