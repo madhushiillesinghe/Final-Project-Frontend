@@ -6,7 +6,7 @@ Station Road, Matale, Sri Lanka
 ## Overview
 The **Crop Monitoring System** is a comprehensive solution developed for **Green Shadow (Pvt) Ltd**, a mid-scale farm specializing in root crops and cereals. The system is designed to manage the company's growth by systemizing key areas, including fields, crops, staff, equipment, vehicles, and monitoring logs.  
 
-The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript**, and **jQuery**, while the backend is connected via **AJAX**. The system ensures seamless interaction between users and the database.
+The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript**, and **jQuery**, while the backend is connected via **AJAX** with **JWT** (JSON Web Token) authentication for secure user validation. The system ensures seamless interaction between users and the database with role-based access control.
 
 ---
 
@@ -16,45 +16,66 @@ The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript
   - **Manager**: Full CRUD access to all entities.
   - **Administrative**: Restricted from editing crop, field, and monitoring log details.
   - **Scientist**: Restricted from modifying staff, vehicle, and equipment data.
-- Sign-in and sign-up pages with role-based access control.
-- Dashboard with a analys data included  pie chart and various data sections.
+- **Sign-in and Sign-up Pages**: Secure login system using JWT.
+- **Role-Based Dashboard**:
+  - Includes data analytics and a pie chart.
+  - Displays sections for crops, vehicles, fields, equipment, logs, and staff.
 
 ### Core Functionalities
 1. **Field Management**:  
-   - Represents cultivation land for specific crops.  
-   - Users can add, edit, view, and delete field details.
+   - Manage land allocated for specific crops.  
+   - Add, edit, view, and delete field details.
 
 2. **Crop Management**:  
-   - Includes crop type, growth stage, extent, and field observations.  
-   - Data analysis features like spatial and temporal analysis.
+   - Track crop type, growth stages, total extent, and field observations.  
+   - Perform spatial and temporal data analysis.
 
 3. **Staff Management**:  
-   - Includes CRUD operations for staff details like designation, role, and contact.  
-   - Staff allocation for monitoring operations.
+   - CRUD operations for staff details like designation, roles, and contact.  
+   - Assign staff to monitoring operations.
 
 4. **Monitoring Logs**:  
-   - Logs observations and activities related to fields and crops.  
-   - View logs in a detailed read-only form.
+   - Log observations and activities for fields and crops.  
+   - View detailed logs in a read-only format.
 
 5. **Equipment and Vehicle Management**:  
-   - Tracks and manages vehicles and agricultural equipment.  
-   - Includes relational analysis for labor and driver allocations.
+   - Manage and track vehicles and agricultural equipment.  
+   - Perform relational analysis for labor and driver allocations.
 
 6. **Search and View Features**:  
-   - Search bar to filter database records.  
-   - All data is loaded dynamically into cards.  
-   - Cards include buttons to view, edit, and delete data.
+   - Use the search bar to filter database records.  
+   - Load all data dynamically into interactive cards.  
+   - Cards provide buttons to view, edit, and delete records.
 
 ---
 
 ## Technologies Used
+
 ### Frontend:
-- **HTML5**, **CSS3**, **Bootstrap**
-- **JavaScript**, **jQuery**
+- **HTML5**: For creating the structure of web pages.
+- **CSS3**: For styling and responsive design.
+- **Bootstrap**: A CSS framework for designing responsive and mobile-first pages efficiently.
+- **JavaScript**: For dynamic content and user interaction.
+- **jQuery**: A JavaScript library simplifying DOM manipulation, event handling, and AJAX integration.
 
 ### Backend:
-- Connected using **AJAX**
-- Database integration to dynamically load and update data.
+- **AJAX**: For asynchronous communication between the frontend and backend.
+- **JWT**: Ensures secure user authentication and session management.
+
+---
+
+## How It Works
+1. **AJAX Integration**:
+   - All frontend requests to the backend are made using AJAX.
+   - URL endpoints support CRUD operations and secure JWT-based authentication.
+   
+2. **Role-Based Access**:
+   - Users are assigned roles during sign-up or by an administrator.
+   - Permissions are dynamically enforced based on the user's role.
+
+3. **Dynamic Data Loading**:
+   - Backend data is loaded into cards on the frontend.
+   - Cards allow easy access to view, edit, and delete functionalities.
 
 
 
