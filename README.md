@@ -1,7 +1,9 @@
 # Crop Monitoring System
 
-Green Shadow (Pvt) Ltd  
+**Green Shadow (Pvt) Ltd**  
 Station Road, Matale, Sri Lanka  
+
+---
 
 ## Overview
 The **Crop Monitoring System** is a comprehensive solution developed for **Green Shadow (Pvt) Ltd**, a mid-scale farm specializing in root crops and cereals. The system is designed to manage the company's growth by systemizing key areas, including fields, crops, staff, equipment, vehicles, and monitoring logs.  
@@ -11,6 +13,7 @@ The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript
 ---
 
 ## Features
+
 ### User Access
 - **User Roles**:
   - **Manager**: Full CRUD access to all entities.
@@ -47,6 +50,14 @@ The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript
    - Load all data dynamically into interactive cards.  
    - Cards provide buttons to view, edit, and delete records.
 
+### Additional Functionalities
+- **Input Validation**:
+  - Implemented using **Regex** for fields such as email, contact numbers, and names.
+  - Provides real-time feedback to users on invalid input.
+- **Form Pop-Ups**:
+  - Intuitive form pop-ups for adding or editing details on relevant pages.
+  - Ensures seamless and user-friendly interaction.
+
 ---
 
 ## Technologies Used
@@ -65,6 +76,7 @@ The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript
 ---
 
 ## How It Works
+
 1. **AJAX Integration**:
    - All frontend requests to the backend are made using AJAX.
    - URL endpoints support CRUD operations and secure JWT-based authentication.
@@ -77,5 +89,19 @@ The frontend is implemented using **HTML**, **CSS**, **Bootstrap**, **JavaScript
    - Backend data is loaded into cards on the frontend.
    - Cards allow easy access to view, edit, and delete functionalities.
 
+4. **Input Validation**:
+   - Real-time validation ensures data integrity using Regex patterns.
+   - Examples:
+     - Email: `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
+     - Contact Number: `^\d{10}$`
+     - Name: `^[a-zA-Z\s]{2,50}$`
 
+5. **Form Pop-Ups**:
+   - Forms appear in modals when triggered by buttons such as "Add" or "Edit."
+   - Ensures a smooth user experience by staying on the same page.
 
+---
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
